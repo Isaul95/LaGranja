@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d570ab6c-1a68-428c-979d-454ff345539c">
+	<property name="ireport.zoom" value="1.815000000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="nunControl" class="java.lang.String"/>
+	<parameter name="detall" class="java.lang.Integer"/>
+	<parameter name="opcion" class="java.lang.Integer"/>
+	<parameter name="carrera" class="java.lang.Integer"/>
+	<parameter name="semestre" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT CONCAT(a.nombres, ' ', a.apellido_paterno, ' ', a.apellido_materno) As nombre_completo, carrera.carrera_descripcion, materias.semestre, carrera.clave as clave_carrera, carrera.fecha as fecha_carrera , per.nombre_ciclo, sem.nombre , d.promedio_letra, d.fecha_letra,
+     (select AVG(calificaciones.calificacion)
+     from detalles d
+     INNER join alumnos a on d.alumno = a.numero_control
+     inner join calificaciones on calificaciones.detalle = d.id_detalle
+     where a.numero_control = "$P{nunControl}" and d.id_detalle = $P{detall} ) as promedio
+from detalles d
+INNER join alumnos a on d.alumno = a.numero_control
+inner join carrera on carrera.id_carrera = d.carrera
+inner join periodo_escolar per on per.id_periodo_escolar = d.ciclo_escolar
+inner join materias on materias.especialidad = carrera.id_carrera
+inner join calificaciones on calificaciones.materia = materias.id_materia
+inner join semestres sem on sem.semestre = d.cuatrimestre
+where a.numero_control = "$P{nunControl}" and d.id_detalle = $P{detall} and d.cuatrimestre = $P{semestre} and d.opcion = $P{opcion} and d.carrera = $P{carrera}
+group by d.id_detalle]]>
+	</queryString>
+	<field name="nombre_completo" class="java.lang.String"/>
+	<field name="carrera_descripcion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="semestre" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="clave_carrera" class="java.lang.String"/>
+	<field name="fecha_carrera" class="java.lang.String"/>
+	<field name="nombre_ciclo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="promedio_letra" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_letra" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="promedio" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="20" y="30" width="183" height="21" uuid="4ca88d65-0024-4818-bb52-e86e0e4beea6"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[A QUIEN CORRESPONDA:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="66" splitType="Stretch">
+			<staticText>
+				<reportElement x="20" y="11" width="495" height="21" uuid="3a7471fd-e87b-4ae2-8b50-332ab6594f9f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[EL QUE SUSCRIBE, LIC. CARLOS C. ACOSTA-VÍQUEZ ORTIZ.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="31" width="495" height="21" uuid="6da85456-f242-40cf-bb52-e26fee7f2372"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Director General del Centro de Estudios Superiores del Valle de Iguala]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="34" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="239">
+			<staticText>
+				<reportElement x="0" y="0" width="549" height="14" uuid="5e3ab890-59e0-492d-9cf8-243e1db1949f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HACE CONSTAR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="63" width="495" height="16" uuid="ba7fb3b2-5879-44f2-b4e5-fee02cb6f37c"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Que según archivos que obran en el Departamento de Control Escolar de esta ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="78" width="119" height="16" uuid="d712bd95-387e-4205-b7fb-4d46f45e6b8d"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Institución, el joven]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="199" y="93" width="327" height="16" uuid="5d8a86c3-a29e-4855-b0ba-2b8d23ef71c7"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[, con Reconocimiento de Validez Oficial de Estudios de ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="356" y="78" width="170" height="16" uuid="f14d0025-7a2b-46a6-900e-1739c74edc78"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[es alumno de la ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="151" y="78" width="205" height="16" uuid="605d86cb-48e8-4bec-a49f-bffe8d0dd3bc"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_completo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="31" y="93" width="168" height="16" uuid="80a96a9d-b58e-4ce0-a331-bee2f7647516"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{carrera_descripcion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="31" y="108" width="301" height="16" uuid="ec700e67-bc3d-461a-95b0-25b8ee8f5830"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[la Secretaría de Educación Guerrero según acuerdo]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="332" y="108" width="123" height="16" uuid="59c164ee-d82a-45a3-bf0b-ed67ec83e2cf"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{clave_carrera}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="145" y="123" width="291" height="16" uuid="8b0ffee4-92f5-49ce-bb8b-0d6215397141"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[, con C.C.T.12PSU0010Y. se encuentra inscrito en]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="138" width="130" height="16" uuid="0dcaf139-3ada-4391-b67c-cfc891fc067b"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[semestre ciclo escolar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="458" y="108" width="68" height="16" uuid="8dccb41d-282b-4faf-bc19-8b1a5b8e1418"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[de fecha]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="31" y="123" width="114" height="16" uuid="5427caa9-b0f1-4eb4-b7f1-bd3af92cfe3c"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_carrera}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="436" y="123" width="90" height="16" uuid="5bc29b98-ef8f-46fa-9219-b8712dcb002c"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="162" y="138" width="89" height="16" uuid="6d879168-5708-49ea-8a1e-e809510b7ee8"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre_ciclo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="252" y="138" width="120" height="16" uuid="09925959-12c7-4f00-938f-1a71bfdbd63c"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[, con un promedio de]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="373" y="138" width="32" height="16" uuid="6ac1b20d-b28b-4fab-899a-803f5570ce11"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{promedio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="31" y="184" width="495" height="16" uuid="25a94200-379f-4459-b99a-be1fa4550d4a"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Se extiende la presente a solicitud del interesado y para los fines que a él ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="199" width="495" height="16" uuid="350addf6-48eb-4503-b1b9-b5bc2ba5cdbe"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[convengan, en Iguala de la Independencia, Cuna de la Bandera Nacional, Estado ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="214" width="108" height="16" forecolor="#000000" uuid="d773ec73-eaae-4fc8-b25a-6acafcd453c3"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[de Guerrero, a los ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="408" y="138" width="118" height="16" uuid="900634af-77c7-43f9-882a-1547736b2276"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{promedio_letra}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="139" y="214" width="387" height="16" uuid="3ece45c8-ff7c-4f94-b65e-d6b511a3d931"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha_letra}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="67" splitType="Stretch">
+			<staticText>
+				<reportElement x="204" y="22" width="168" height="17" uuid="393b7496-8c93-4fb5-82e1-19a5e4857440"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Mistral" size="14" isBold="true" isItalic="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[“Saber para ser Libres”]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="216" y="8" width="141" height="14" uuid="ac75a9c6-a1a8-4bd1-99f0-5f2360e87224"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ATENTAMENTE]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="120" splitType="Stretch">
+			<image>
+				<reportElement x="2" y="4" width="552" height="109" uuid="185c4898-856a-4228-9ee6-a59ac67d6793"/>
+				<imageExpression><![CDATA["src/new-logo-pie.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</pageFooter>
+</jasperReport>

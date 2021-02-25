@@ -1,0 +1,15 @@
+
+
+ #caja {
+  position: relative;
+  top:100px;
+  bottom:;
+  right: ;
+  left:100px;
+}
+div{
+	background-color: black;
+	width: 100px;
+	height: 100px;
+}
+

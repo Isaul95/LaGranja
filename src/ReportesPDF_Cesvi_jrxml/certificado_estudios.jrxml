@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3e6ceb1b-47eb-4663-987a-971bffcef44e">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT a.nombres, carrera.carrera_descripcion, materias.semestre, materias.id_materia, materias.clave, materias.nombre_materia, calificaciones.calificacion, AVG(calificaciones.calificacion) as promedio, materias.creditos, calificaciones.tiempo_extension, carrera.clave from detalles d INNER join alumnos a on d.alumno = a.numero_control inner join carrera on carrera.id_carrera = d.carrera inner join periodo_escolar on periodo_escolar.id_periodo_escolar = d.ciclo_escolar inner join materias on materias.especialidad = carrera.id_carrera inner join calificaciones on calificaciones.materia = materias.id_materia where a.numero_control = 'IGGD212451' and carrera.id_carrera=19]]>
+	</queryString>
+	<field name="nombres" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="carrera_descripcion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="semestre" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_materia" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="clave" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre_materia" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="calificacion" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="promedio" class="java.lang.Double"/>
+	<field name="creditos" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tiempo_extension" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="146" splitType="Stretch">
+			<staticText>
+				<reportElement x="11" y="104" width="531" height="20" uuid="0ed8bcea-d464-4d5a-bd4a-40f72a921077"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CENTRO DE ESTUDIOS SUPERIORES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="177" y="74" width="224" height="24" uuid="e3680e6a-6ab2-4fbb-81ba-480ce5ae64ff"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CERTIFICIÓN DE ESTUDIOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="125" width="531" height="20" uuid="70f216f3-d9d2-4dc2-a57a-84ee3e84db55"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DEL VALLE DE IGUALA, S.C.]]></text>
+			</staticText>
+			<image>
+				<reportElement x="3" y="3" width="155" height="104" uuid="de04fc7f-1d49-4fec-bcb3-46fe742dc238"/>
+				<imageExpression><![CDATA["src/LogCesvi.jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="433" y="24" width="98" height="50" uuid="cefa9e15-1d56-4a20-8fa2-e757f1ed4b49"/>
+				<imageExpression><![CDATA["src/seg.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="176" splitType="Stretch">
+			<rectangle>
+				<reportElement x="11" y="29" width="65" height="62" uuid="df259ca8-b5c5-4bd7-a7b1-cec069990a09"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="118" y="8" width="86" height="19" uuid="5f1b1fda-cc98-4f98-bd0d-329c9b5e0316"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[CERTIFICA QUE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="118" y="74" width="434" height="19" uuid="623e0b8e-dd55-4998-8caa-1b84d0c0d06f"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[DE EDUCACIÓN GUERRERO, SEGÚN ACUERDO NÚMERO 130.00.01.03/97/275 DE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="118" y="40" width="108" height="19" uuid="cceaccb9-8413-45fa-a08d-0dd0b84dfa59"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[CURSÓ Y ACREDITÓ:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="118" y="59" width="434" height="19" uuid="3057692c-bbc9-42f6-a276-27118af29f5a"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[CON RECONOCIMIENTO DE VALIDEZ OFICIAL DE ESTUDIOS DE LA SECRETARÍA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="118" y="24" width="243" height="19" uuid="f2fe19a5-e73d-4c7d-9d47-5826aee0f219"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[CON CLAVE ÚNICA DE REGISTRO DE POBLACIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="118" y="90" width="434" height="19" uuid="637be6d0-2e49-4a09-b5b1-d9a3ad1775a6"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[FECHA  19 DE MAYO DE 1997 Y CLAVE DEL CENTRO DE TRABAJO 12PSU0010Y.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="362" y="24" width="184" height="19" uuid="9f2ed706-35d4-44a5-9f2f-aeb361197dfa"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CURP:SOOE840424MGRLCL07]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="226" y="40" width="261" height="19" uuid="a0c3ca80-6675-49ca-96dc-5406303935be"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LICENCIATURA EN ADMINISTRACION.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="342" y="141" width="195" height="1" uuid="01aa8302-f8d8-4816-9227-378f87ab86e9"/>
+			</line>
+			<staticText>
+				<reportElement x="342" y="143" width="189" height="16" uuid="d66536b1-45ad-4880-92f7-c344cd8a6f10"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[CARLOS C. ACOSTA VIQUEZ ORTIZ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="342" y="157" width="189" height="16" uuid="7564e7ee-743c-4d0a-819c-c131d575edf6"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[DIRECTOR GENERAL]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="204" y="8" width="197" height="19" uuid="7be711e5-9661-42f9-bf29-78607dd8cca2"/>
+				<textElement verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombres}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="122" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="12" y="1" width="510" height="12" uuid="e2968d1f-83d0-4b2e-b26f-8ca38551d26a"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<text><![CDATA[EL PRESENTE CERTIFICADO AMPARA 24 DE 44 ASIGNATURAS, LAS CUALES CUBREN PARCIALMENTE EL PLAN DE ESTUDIOS DE LA LICENCIATURA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="10" width="510" height="12" uuid="db0df12e-0e22-4330-9465-301feb801f90"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<text><![CDATA[EN ADMINISTRACION, CON UN TOTAL DE 192 CRÉDITOS Y UN PROMEDIO GENERAL DE APROVECHAMIENTO DE 9.0 LA ESCALA DE ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="19" width="510" height="12" uuid="e94802ca-bf29-4ed6-9ac4-7a37fadcf7ee"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<text><![CDATA[CALIFICACIONES ES DE 5 A 10 Y LA MÍNIMA APROBATORIA ES DE 6 (SEIS).]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="28" width="510" height="12" uuid="0bd8d4e3-0714-4900-abef-587caa7c0133"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<text><![CDATA[IGUALA DE LA INDEPENDENCIA, GUERRERO; A DOS DE FEBRERO DEL DOS MIL DIEZ.]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="98" splitType="Stretch">
+			<rectangle>
+				<reportElement x="379" y="5" width="152" height="75" uuid="55f12d1f-d41d-4cd7-956b-6b246423d19b"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="380" y="25" width="121" height="10" uuid="dbff08fd-0f84-4765-b83b-1ebcaae77bfb"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<text><![CDATA[CERTIFICACIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="16" width="150" height="10" uuid="e3086eae-2731-45eb-b493-e85f3bd84516"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<text><![CDATA[JEFE DEL DEPARTAMENTO DE REGISTRO Y]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="385" y="69" width="140" height="10" uuid="f01212ce-3c57-4064-8e5c-0771375812e7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<text><![CDATA[JAVIER VERDUZCO REYES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="7" width="151" height="10" uuid="c3f7c43f-3bb5-4aa6-b395-c3f7685533a4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<text><![CDATA[VALIDACIÓN DEL ÁREA DE CONTROL ESCOLAR]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="19" y="5" width="143" height="75" uuid="82578c10-81ca-4b42-82b4-eaaca25a3925"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="21" y="68" width="121" height="10" uuid="61cc3d72-59f4-4346-b9c3-18bb50452142"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<text><![CDATA[FECHA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="7" width="138" height="10" uuid="8233feb3-19ff-48b9-b939-7c3bd6faad11"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<text><![CDATA[REVISADO Y CONFRONTADO POR]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="239" y="56" width="54" height="24" uuid="78302aa6-a538-460d-917c-b0da09d9f879"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="239" y="58" width="54" height="10" uuid="01175351-e1f3-4fe1-99e9-9de5bee8fca9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<text><![CDATA[FOLIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="239" y="67" width="54" height="10" uuid="4894607c-47cd-4213-8abd-ee7e69a611c6"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<text><![CDATA[LA10027]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

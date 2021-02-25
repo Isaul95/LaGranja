@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f0f6ca2f-efa0-4ed5-83da-ae77d2ef89b9">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#1E90FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE0FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#1E90FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE0FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="NewTab1" uuid="1a912563-571e-4c59-a6eb-972e757bd93c">
+		<queryString language="SQL">
+			<![CDATA[SELECT a.nombres, carrera.carrera_descripcion, materias.semestre, materias.id_materia, materias.clave as clave_materia, materias.nombre_materia, calificaciones.calificacion, materias.creditos, calificaciones.tiempo_extension, carrera.clave
+from detalles d
+INNER join alumnos a on d.alumno = a.numero_control
+inner join carrera on carrera.id_carrera = d.carrera
+inner join periodo_escolar on periodo_escolar.id_periodo_escolar = d.ciclo_escolar
+inner join materias on materias.especialidad = carrera.id_carrera
+inner join calificaciones on calificaciones.materia = materias.id_materia
+where a.numero_control = 'IGGD212451' and carrera.id_carrera=19]]>
+		</queryString>
+		<field name="semestre" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="clave_materia" class="java.lang.String"/>
+		<field name="nombre_materia" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="tiempo_extension" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="creditos" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="calificacion" class="java.lang.Float">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="num_control" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{num_control}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="idcarrera" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[$P{idcarrera}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT a.nombres, carrera.carrera_descripcion, materias.semestre, materias.id_materia, materias.clave, materias.nombre_materia, calificaciones.calificacion, materias.creditos, calificaciones.tiempo_extension, carrera.clave from detalles d INNER join alumnos a on d.alumno = a.numero_control inner join carrera on carrera.id_carrera = d.carrera inner join periodo_escolar on periodo_escolar.id_periodo_escolar = d.ciclo_escolar inner join materias on materias.especialidad = carrera.id_carrera inner join calificaciones on calificaciones.materia = materias.id_materia where a.numero_control = "$P{num_control}" and carrera.id_carrera=$P{idcarrera}]]>
+	</queryString>
+	<field name="nombres" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="carrera_descripcion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="semestre" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_materia" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="clave" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nombre_materia" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="calificacion" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="creditos" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tiempo_extension" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="14" y="5" width="531" height="25" uuid="24029e50-ce7e-4b71-be23-872b5f174304"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HISTORIA ACADEMICA]]></text>
+			</staticText>
+			<image>
+				<reportElement x="9" y="2" width="175" height="75" uuid="f0fdf9e7-9947-47c7-8e58-95e7b64a26a6"/>
+				<imageExpression><![CDATA["src/LogCesvi.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="87" splitType="Stretch">
+			<staticText>
+				<reportElement x="11" y="40" width="62" height="19" uuid="e1b35cb4-7b3a-4b93-b50b-bfeed332a710"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RVOE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="20" width="98" height="19" uuid="ec982d1c-6763-450b-8563-f5745479138d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LICENCIATURA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="1" width="63" height="19" uuid="c35c6f0f-0fc5-428a-9e44-545264192e31"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="394" y="60" width="73" height="19" uuid="cf03ee3e-436a-448d-9c37-d0a851e8f0ff"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROMEDIO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="60" width="63" height="19" uuid="066e2eda-f50f-4f57-a418-00becf00cb04"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="142" y="2" width="100" height="20" uuid="02d2a7a2-436d-40fe-b92b-fb9ee5a0d2ec"/>
+				<textFieldExpression><![CDATA[$F{nombres}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="142" y="22" width="100" height="20" uuid="0b88c608-ec63-4748-88d5-d74fc54b59b5"/>
+				<textFieldExpression><![CDATA[$F{carrera_descripcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="142" y="42" width="100" height="20" uuid="40ad7acd-2bdb-4bd7-9f15-6a3fa8be4689"/>
+				<textFieldExpression><![CDATA[$F{clave}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="142" y="62" width="100" height="20" uuid="1e1a9c49-2213-459c-8f95-f40fe5392b98"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 1" style="table 1" x="17" y="3" width="433" height="57" uuid="a19b3220-c2e3-46e6-be0e-2049500174fb"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="NewTab1" uuid="860486d3-d4ff-4a8a-971d-7362ee8b708d">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="2a92a7ec-24ae-441f-b431-cc9039ef9df4">
+						<jr:columnHeader style="table 1_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="7c84f52a-6f99-4ebb-8bdb-9c8391d70332"/>
+								<text><![CDATA[semestre]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="d46131a7-2a3d-446a-a9e5-42911af752e0"/>
+								<textFieldExpression><![CDATA[$F{semestre}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="04ef5dcd-ac49-4b5d-8f48-a6726fedb9a9">
+						<jr:columnHeader style="table 1_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="7e8e60a2-ad35-4905-8c31-a37ab57a45c5"/>
+								<text><![CDATA[clave_materia]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="d5f44a51-25d8-4eb3-a6f7-98667be2de64"/>
+								<textFieldExpression><![CDATA[$F{clave_materia}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="e44c6d25-6a3c-4401-b20f-24820c4d6ab2">
+						<jr:columnHeader style="table 1_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="e2807f1b-ac6a-4541-9ea2-c6260a9a5344"/>
+								<text><![CDATA[nombre_materia]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="1a78705a-6fcc-400b-bd65-dc5d1f994655"/>
+								<textFieldExpression><![CDATA[$F{nombre_materia}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="6a9d149a-5128-4b2e-abce-5b7b4267d8fd">
+						<jr:columnHeader style="table 1_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="96a67319-93b8-4b96-9be9-1f4dce94fffd"/>
+								<text><![CDATA[tiempo_extension]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="192de546-6be5-4ed5-a3d4-005b8331c230"/>
+								<textFieldExpression><![CDATA[$F{tiempo_extension}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="0b66e665-7395-4219-880e-c619b5d48ba2">
+						<jr:columnHeader style="table 1_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="ab7a213b-2cfb-4e7c-9ac6-dcc4da63b2ee"/>
+								<text><![CDATA[creditos]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="af6d14c9-80a6-4c54-9e13-e9761ed3e2c9"/>
+								<textFieldExpression><![CDATA[$F{creditos}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="d83aed22-df5b-45b7-a45b-8be0ae0e8c4e">
+						<jr:columnHeader style="table 1_CH" height="30">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="af5f431c-4cb2-4e0c-8101-3d390c785297"/>
+								<text><![CDATA[calificacion]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="ed34186f-6cd9-4efc-b32c-0d43ee63f084"/>
+								<textFieldExpression><![CDATA[$F{calificacion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<staticText>
+				<reportElement x="131" y="25" width="255" height="22" uuid="fcee3464-68c7-4da9-abf6-681f13c083e2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="131" y="3" width="256" height="25" uuid="5250e5b3-6291-4ab8-810d-4b1dd4c01185"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[LIC. CARLOS C. ACOSTA-VIQUEZ ORTIZ]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

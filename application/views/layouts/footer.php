@@ -152,3 +152,11 @@ $('#btn_RegistroPago').DataTable( {
 
 <!-- ===== ULTIMOS TRAMITES ENVIOS DE OFICIOS DE SERVICIO SOCIAL, TITULACION Y PRACTICAS PROFESIONALES   ====  -->
 <script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Alumnos/proceso_final.js"></script>
+
+<!-- Productos -->
+<script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/productos/Productos.js"></script>
+
+<!-- Apertura -->
+<script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/apertura/Apertura.js"></script>
+<!-- Gastos -->
+<script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/gastos/Gastos.js"></script>

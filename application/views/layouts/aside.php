@@ -130,6 +130,24 @@
                           <li><a href="<?php echo base_url();?>Administrativos/Calificaciones">
                               <i class="far fa-dot-circle"></i> Calificaciones</a></li>
 
+                              <!-- ============================== Inicio Modificacion Nacho ======================================== -->
+                      <!-- Inicio Seccion de Productos -->
+                          <li>
+                            <a href="<?php echo base_url();?>Administrativos/Productos">
+                            <i class="far fa-dot-circle"></i> Productos</a>
+                          </li>
+
+                          <li>
+                            <a href="<?php echo base_url();?>Administrativos/Apertura">
+                            <i class="far fa-dot-circle"></i> Apertura</a>
+                          </li>
+
+                          <li>
+                            <a href="<?php echo base_url();?>Administrativos/Gastos">
+                            <i class="far fa-dot-circle"></i> Gastos</a>
+                          </li>
+                      <!-- Fin Seccion de Productos -->
+
                         </ul>
                     </li>
 <?php endif;?>

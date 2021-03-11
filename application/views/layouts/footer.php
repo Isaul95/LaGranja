@@ -160,3 +160,9 @@ $('#btn_RegistroPago').DataTable( {
 <script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/apertura/Apertura.js"></script>
 <!-- Gastos -->
 <script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/gastos/Gastos.js"></script>
+
+<!-- Producto Externo -->
+<script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/productoExterno/ProductoExterno.js"></script>
+
+<!-- Producto Locales -->
+<script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/locales/Locales.js"></script>

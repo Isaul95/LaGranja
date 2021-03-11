@@ -146,6 +146,14 @@
                             <a href="<?php echo base_url();?>Administrativos/Gastos">
                             <i class="far fa-dot-circle"></i> Gastos</a>
                           </li>
+                          <li>
+                            <a href="<?php echo base_url();?>Administrativos/ProductoExterno">
+                            <i class="far fa-dot-circle"></i> Producto Externo</a>
+                          </li>
+                          <li>
+                            <a href="<?php echo base_url();?>Administrativos/Locales">
+                            <i class="far fa-dot-circle"></i> Locales</a>
+                          </li>
                       <!-- Fin Seccion de Productos -->
 
                         </ul>

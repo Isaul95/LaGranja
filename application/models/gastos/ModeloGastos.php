@@ -6,8 +6,13 @@ class ModeloGastos extends CI_Model { // INICIO DEL MODELO
 # Listar datos de la tabla gastos
 public function listarGastos(){
 
-  $resultados = $this->db->get('egreso');
+  $this->db->select('a.*,d.*');
+  $this->db->from('egreso a');
+  $this->db->join('usuarios d', 'a.usuario = d.id', 'left');
+
+  $resultados = $this->db->get();
   return $resultados->result();
+
 
 }
 

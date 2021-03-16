@@ -23,6 +23,29 @@ public function listarLocales(){
 
 }
 
+public function listarProductos(){
+  $crudo='Crudo';
+  $this->db->select('*');
+  $this->db->from('productos');
+  $this->db->where('tipo_producto', $crudo);
+  $resultados = $this->db->get();
+  return $resultados->result();
+
+}
+
+public function getCantidadProducto($nombre){
+  $this->db->select('*');
+  $this->db->from('productos');
+  $this->db->where('nombre_producto', $nombre);
+  $query = $this->db->get();
+  if (count($query->result()) > 0) {
+      return $query;
+    }
+  //$resultados = $this->db->get();
+  //return $resultados->result();
+
+}
+
 # Agregar nueva gastos
 public function agregarProductoExterno($data)
     {
@@ -69,6 +92,14 @@ public function agregarProductoExternoFinal($data){
 
 public function agregarProductoExternoFinalP($data){
   return $this->db->insert('productos', $data);
+}
+
+public function actualizarCantidadProducto($nombre,$cantidad){
+  $this->db->where('nombre_producto', $nombre);
+  $this->db->set('cantidad', $cantidad);
+  return $this->db->update('productos');
+  //return $this->db->update('productos', $ajax_data, array('id_pe' => $id_pe));
+
 }
 
 public function eliminarProductoExternoFinal(){

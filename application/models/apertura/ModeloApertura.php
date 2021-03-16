@@ -6,9 +6,29 @@ class ModeloApertura extends CI_Model { // INICIO DEL MODELO
 # Listar datos de la tabla aperturas
 public function listarAperturas(){
 
-  $resultados = $this->db->get('apertura');
+  $this->db->select('a.*,d.*');
+  $this->db->from('apertura a');
+  $this->db->join('usuarios d', 'a.usuario = d.id', 'left');
+
+  $resultados = $this->db->get();
   return $resultados->result();
 
+}
+//traerFecha()
+public function traerFecha()
+          {
+            $resultados = $this->db->get('apertura');
+            return $resultados->result();
+          }
+
+public function traerFechaA($fecha){
+  $this->db->select('*');
+  $this->db->from('apertura');
+  $this->db->where('fecha', $fecha);
+  $query = $this->db->get();
+  if (count($query->result()) > 0) {
+    return $query->row();
+  }
 }
 
 # Agregar nueva apertura
@@ -40,4 +60,5 @@ public function delete_entry($id)
     return $this->db->delete('apertura', array('id_apertura' => $id));
 }
 
-  } // FIN / CIERRE DEL MODELO
+
+} // FIN / CIERRE DEL MODELO

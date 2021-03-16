@@ -1,7 +1,10 @@
 $(document).ready(function () {
     llenartablaproductoext(); // SEINICIALIZA LA FUNCTIO DE LA CARGA DEL LISTADO DE LA TABLA
     llenarLocales();
+    llenarProductos();
     llenarLocalesM();
+    llenarProductosEdit();
+
     document.getElementById('btnaddpexf').disabled=true;
 
 
@@ -68,7 +71,6 @@ function llenartablaproductoext() {
 
                     {
                         orderable: false,
-
                         searchable: false,
                         data: function (row, type, set) {
                             return `
@@ -104,6 +106,39 @@ function llenarLocales() {
   });
 
 }
+function llenarProductos() {
+  //
+  $.ajax({
+      type: "get",
+      url: base_url + 'Administrativos/ProductoExterno/getProductos',
+      dataType: "json",
+      success: function (datos) {
+          //ar i = "1";
+          for (x=0;x<datos.length;x++){
+            $('#producto_externo').append('<option value="'+datos[x].nombre_producto+'">'+ datos[x].nombre_producto +'</option>');
+          }
+
+      }
+  });
+
+}
+
+function llenarProductosEdit() {
+  //
+  $.ajax({
+      type: "get",
+      url: base_url + 'Administrativos/ProductoExterno/getProductos',
+      dataType: "json",
+      success: function (datos) {
+          //ar i = "1";
+          for (x=0;x<datos.length;x++){
+            $('#pex_nuevo').append('<option value="'+datos[x].nombre_producto+'">'+ datos[x].nombre_producto +'</option>');
+          }
+
+      }
+  });
+
+}
 
 function llenarLocalesM() {
   //
@@ -126,7 +161,7 @@ function llenarLocalesM() {
 
 $(document).on("click", "#btnaddpex", function (e) {
     e.preventDefault();
-    var tipo = $("#tipo_pex").val();
+    var tipo ='Crudo';
     var producto = $("#producto_externo").val();
     var precio = parseFloat($("#precio_pex").val());
     var pieza = parseFloat($("#piezas").val());
@@ -250,7 +285,7 @@ $(document).on("click", "#edit_pex", function (e) {
             // Llena los inputs del formulario con los datos a modificar
             $('#id_pex_update').val(data.post.id_pe);
             $('#pex_nuevo').val(data.post.producto);
-            $('#tipo_pex_edit').val(data.post.tipo);
+            //$('#tipo_pex_edit').val(data.post.tipo);
             $('#piezas_nuevas').val(data.post.pieza);
             $('#precio_nuevo').val(data.post.precio);
             $('#tienda_anterior').val(data.post.tienda_externa);
@@ -272,7 +307,7 @@ $(document).on("click", "#update_pex", function (e) {
 //debugger;
     var id_pe = $("#id_pex_update").val();
     var producto = $("#pex_nuevo").val();
-    var tipo = $("#tipo_pex_edit").val();
+    var tipo = 'Crudo';
     var pieza = $("#piezas_nuevas").val();
     var precio = $("#precio_nuevo").val();
     var tienda= $("#tienda_nueva").val();
@@ -430,7 +465,7 @@ $(document).on("click", "#verProductosExt", function (e) {
 
                     {
                         orderable: false,
-                        //visible:false,
+                        visible:false,
                         searchable: false,
                         data: function (row, type, set) {
                             return `

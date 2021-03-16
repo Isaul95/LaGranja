@@ -23,10 +23,15 @@ class Apertura extends CI_Controller {
 # Listar Apertura
 public function listarAperturas(){
     $posts = $this->ModeloApertura->listarAperturas();
+		//print_r($posts);
     echo json_encode($posts);
 }
 
-
+public function getFechaApertura(){
+    $posts = $this->ModeloApertura->traerFecha();
+		//print_r($posts);
+    echo json_encode($posts);
+}
 
 # Agregar nueva Apertura
 	public function agregarApertura(){
@@ -41,25 +46,37 @@ public function listarAperturas(){
 				$data = array('res' => "error", 'message' => validation_errors());
 			} else {
 
-
-	      $ajax_data = array(
-	        'monto' => $this->input->post('monto'),
-          'fecha' => $this->input->post('fecha'),
-	        'hora' => $this->input->post('hora'),
-	        'usuario' => $this->input->post('usuario'),
-
-	      );
-
-				if ($this->ModeloApertura->agregarApertura($ajax_data)) {
-					$data = array('res' => "success", 'message' => "¡Registro agregado!");
-	  		} else {
-					$data = array('res' => "error", 'message' => "¡Error! :(");
-				}
-
-	 		echo json_encode($data);
+			$fff=$this->input->post('fecha');
+			$fc = $this->ModeloApertura->traerFechaA($fff);
+			// Se compara si ya hay una apertura con la fecha actual
+		   if ($fc == null || $fc == '') {
 
 
+		      $ajax_data = array(
+		        'monto' => $this->input->post('monto'),
+	          'fecha' => $this->input->post('fecha'),
+		        'hora' => $this->input->post('hora'),
+		        'usuario' =>  $this->input->post('usuario'),
+
+		      );
+
+					if ($this->ModeloApertura->agregarApertura($ajax_data)) {
+						$data = array('res' => "success", 'message' => "¡Registro agregado!");
+		  		} else {
+						$data = array('res' => "error", 'message' => "¡Error! :(");
+					}
+
+		 		echo json_encode($data);
+
+
+			}else {
+				// En caso de que si haya una apertura con la fecha actual
+				$data = array('res' => "error", 'message' => "¡Error! Ya existe una apertura con esta fecha :(");
+				echo json_encode($data);
 			}
+			}
+
+
 		} else {
 			echo "No se permite este acceso directo...!!!";
 		}

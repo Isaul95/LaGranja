@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    llenartablaapertura(); // SEINICIALIZA LA FUNCTIO DE LA CARGA DEL LISTADO DE LA TABLA
+  //verificarFecha();
+  llenartablaapertura(); // SEINICIALIZA LA FUNCTIO DE LA CARGA DEL LISTADO DE LA TABLA
 
 
 
@@ -19,6 +20,47 @@ $("#modaleditapertura").on("hide.bs.modal", function (e) {
     $("#formeditarapertura")[0].reset();
 });
 
+function verificarFecha() {
+  var f = new Date();
+  var yyyy = f.getFullYear();
+  var mm = f.getMonth()+1;
+  var dd = f.getDate();
+
+  if(mm<10){
+    mm='0'+mm //agrega cero si el menor de 10
+  }
+
+  if(dd<10){
+    dd='0'+dd; //agrega cero si el menor de 10
+  }
+
+  fecha = yyyy + "/" + mm + "/" + dd;
+  //$('#f').val(fecha);
+
+  //
+  $.ajax({
+      type: "get",
+      url: base_url + 'Administrativos/Apertura/getFechaApertura',
+      dataType: "json",
+      success: function (datos) {
+          //ar i = "1";
+          for (x=0;x<datos.length;x++){
+            if(datos[x].fecha == fecha){
+              //document.getElementById('modal_add_apertura').disabled=true;
+              document.getElementById('btnaddapertura').disabled=true;
+            }else {
+              //document.getElementById('modal_add_apertura').disabled=false;
+              document.getElementById('btnaddapertura').disabled=false;
+            }
+            //$('#pex_nuevo').append('<option value="'+datos[x].nombre_producto+'">'+ datos[x].nombre_producto +'</option>');
+          }
+
+      }
+  });
+
+}
+
+
 /* -------------------------------------------------------------------------- */
 /*                      Llenar tabla Aperturas                             */
 /* -------------------------------------------------------------------------- */
@@ -28,6 +70,7 @@ function llenartablaapertura() {
         url: base_url + 'Administrativos/Apertura/listarAperturas',
         dataType: "json",
         success: function (response) {
+          //alert(response);
             var i = "1";
             $("#tbl_aperturas").DataTable({
                 data: response,
@@ -50,13 +93,12 @@ function llenartablaapertura() {
                         data: "hora",
                     },
                     {
-                        data: "usuario",
+                        data: "nombres",
                     },
 
 
                     {
                         orderable: false,
-                        visible: false,
                         searchable: false,
                         data: function (row, type, set) {
                             return `
@@ -71,6 +113,7 @@ function llenartablaapertura() {
                 "language": language_espaniol,
             });
         },
+        //alert('error');
     });
 } // fin de llenar tabla Mobiliario
 
@@ -133,6 +176,7 @@ $(document).on("click", "#btnaddapertura", function (e) {
                     $("#modal_add_apertura").modal("hide");
                     $("#addapertura")[0].reset();
                     $("#tbl_aperturas").DataTable().destroy();
+                    //verificarFecha();
                     llenartablaapertura();
                 } else {
                     toastr["error"](response.message);
@@ -175,6 +219,7 @@ $(document).on("click", "#del_apertura", function (e) {
                             'success'
                         );
                         $("#tbl_aperturas").DataTable().destroy();
+                        //verificarFecha();
                         llenartablaapertura();
                     }
                 },
@@ -286,6 +331,7 @@ $(document).on("click", "#update_apertura", function (e) {
                 $("#modaleditapertura").modal("hide");
                 $("#formeditarapertura")[0].reset();
                 $("#tbl_aperturas").DataTable().destroy();
+                //verificarFecha();
                 llenartablaapertura();
               } else {
                   toastr["error"](data.message);

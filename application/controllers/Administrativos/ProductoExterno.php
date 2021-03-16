@@ -31,21 +31,25 @@ public function listarProductoExterno(){
 }
 
 public function getLocales(){
-  //$locales= $this->input->pots('tienda')
+  //$locales= $this->input->pots('tienda') getProductosExt
 
   $posts = $this->ModeloProductoExterno->listarLocales();
   echo json_encode($posts);
 
 }
-public function verProductosExt(){
 
-
-    $posts = $this->ModeloProductoExterno->verProductosExt();
-    echo json_encode($posts);
+public function getProductos(){
+  $posts = $this->ModeloProductoExterno->listarProductos();
+  echo json_encode($posts);
 
 }
 
+public function verProductosExt(){
 
+  $posts = $this->ModeloProductoExterno->verProductosExt();
+  echo json_encode($posts);
+
+}
 
 # Agregar nuevo Producto Externo
 	public function agregarProductoExterno(){
@@ -71,16 +75,10 @@ public function verProductosExt(){
 
 	 		echo json_encode($data);
 
-
-
-
-
 		} else {
 			echo "No se permite este acceso directo...!!!";
 		}
 	}
-
-
 
 # Eliminar Apertura
 
@@ -162,10 +160,6 @@ public function updateProductoExt(){
     if ($resultados != null || $resultados != '') {
       // code...
 
-
-
-
-
     foreach ($resultados->result() as $row){
 
       $ajax_data = array(
@@ -177,19 +171,23 @@ public function updateProductoExt(){
           'tienda_externa' => $row->tienda_externa,
           'fecha' => $row->fecha,
 	      );
-        // Agrega productos en la tabla pructos
-        $ajax_datap = array(
-            'nombre_producto' => $row->producto,
-            'tipo_producto' => $row->tipo,
-  	        'precio' => $row->precio,
-            'cantidad' => $row->pieza,
-            'fecha_de_caducidad' => 'Sin fecha de caducidad',
-            'id_proveedor' => 1,
-            'fecha' => $row->fecha,
-  	      );
+
+				$piezas_nuevas = floatval($row->pieza);
+				$nombr=$row->producto;
+
+				$cantidadAnterior=0;
 
         if ($this->ModeloProductoExterno->agregarProductoExternoFinal($ajax_data)) {
-          $this->ModeloProductoExterno->agregarProductoExternoFinalP($ajax_datap);
+
+					$canPro=$this->ModeloProductoExterno->getCantidadProducto($nombr);
+
+					foreach ($canPro->result() as $rowP){
+						$cantidadAnterior = floatval($rowP->cantidad);
+					}
+
+					$cantidadNueva = $cantidadAnterior + $piezas_nuevas;
+					$this->ModeloProductoExterno->actualizarCantidadProducto($nombr, $cantidadNueva);
+
           $this->ModeloProductoExterno->eliminarProductoExternoFinal();
 
       			$data = array('responce' => "success");

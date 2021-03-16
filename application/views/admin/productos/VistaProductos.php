@@ -68,7 +68,12 @@
                       </div>
                       <div class="form-group">
                         <label for="">Tipo</label>
-                        <input type="text" class="form-control" id="tipo_producto" placeholder="Tipo">
+                        <select class="form-control" id="tipo_producto">
+                          <option value="Pollo">Pollos</option>
+                          <option value="Crudo">Crudo</option>
+                          <option value="Cocido">Cocido</option>
+                          <option value="Acompañantes">Acompañantes</option>
+                        </select>
                       </div>
                       <div class="form-group">
                         <label for="">Precio</label>
@@ -129,7 +134,12 @@
                             </div>
                             <div class="form-group">
                               <label for="">Tipo</label>
-                              <input type="text" class="form-control" id="tipo_producto_nuevo">
+                              <select class="form-control" id="tipo_producto_nuevo">
+                                <option value="Pollo">Pollos</option>
+                                <option value="Crudo">Crudo</option>
+                                <option value="Cocido">Cocido</option>
+                                <option value="Acompañantes">Acompañantes</option>
+                              </select>
                             </div>
                             <div class="form-group">
                               <label for="">Precio</label>

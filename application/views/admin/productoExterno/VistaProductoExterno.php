@@ -75,7 +75,7 @@
                     <form id="addpex">
 
                       <?php
-                        $id_usua_ss=$this->session->userdata('id');
+                        $id_usua_ss=$this->session->userdata('nombres');
                         $cont=0;
                       ?>
 
@@ -86,20 +86,14 @@
 
                         </select>
                       </div>
+
                       <div class="form-group">
-                        <label for="">Tipo</label>
-                        <select class="form-control" id="tipo_pex">
-                          <option value="Pollo">Pollo</option>
-                          <option value="Crudo">Crudo</option>
-                          <option value="Cocido">Cocido</option>
-                          <option value="Acompañantes">Acompañantes</option>
+                        <label for="">Producto</label>
+                        <select class="form-control" id="producto_externo">
 
                         </select>
                       </div>
-                      <div class="form-group">
-                        <label for="">Producto</label>
-                        <input type="text" class="form-control" id="producto_externo" placeholder="Producto">
-                      </div>
+
                       <div class="form-group">
                         <label for="">Piezas</label>
                         <input type="text" class="form-control" id="piezas" placeholder="Piezas">
@@ -108,10 +102,7 @@
                         <label for="">Precio</label>
                         <input type="text" class="form-control" id="precio_pex" placeholder="Precio">
                       </div>
-                      <div class="form-group">
-                        <label for="">Total: $</label>
 
-                      </div>
 
                     </form>
                   </div>
@@ -150,21 +141,16 @@
                             <label for="">Tienda Externa</label>
                             <select class="form-control" id="tienda_nueva">
 
-                              >
+
                             </select>
                             <div class="form-group">
-                              <label for="">Tipo</label>
-                              <select class="form-control" id="tipo_pex_edit">
-                                <option value="Pollo">Pollo</option>
-                                <option value="Crudo">Crudo</option>
-                                <option value="Cocido">Cocido</option>
-                                <option value="Acompañantes">Acompañantes</option>
+                              <label for="">Producto</label>
+                              <select class="form-control" id="pex_nuevo">
 
                               </select>
-                            <div class="form-group">
-                              <label for="">Producto</label>
-                              <input type="text" class="form-control" id="pex_nuevo">
                             </div>
+
+
                             <div class="form-group">
                               <label for="">Precio</label>
                               <input type="text" class="form-control" id="precio_nuevo">

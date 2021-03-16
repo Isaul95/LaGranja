@@ -53,7 +53,7 @@ function llenartablagastos() {
                         data: "fecha",
                     },
                     {
-                        data: "usuario",
+                        data: "nombres",
                     },
 
 

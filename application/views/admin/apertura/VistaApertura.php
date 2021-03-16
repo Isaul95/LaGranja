@@ -35,10 +35,10 @@
                   <thead class="text-center bg-primary">
                     <tr>
                       <th width="3%" type="hidden">#</th>
-                      <th width="10%">Monto</th>
-                      <th width="10%">Fecha</th>
-                      <th width="10%">Hora</th>
-                      <th width="15%">Usuario</th>
+                      <th>Monto</th>
+                      <th>Fecha</th>
+                      <th>Hora</th>
+                      <th>Usuario</th>
 
                       <th class="text-center" width="20%">Acciones</th>
                     </tr>
@@ -59,6 +59,7 @@
                   </div>
                   <div class="modal-body">
                     <form id="addapertura">
+                      <input type="hidden" id="f">
 
                       <?php
                         $id_user=$this->session->userdata('id');

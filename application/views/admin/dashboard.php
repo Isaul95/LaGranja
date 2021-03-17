@@ -5,7 +5,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
         <h1>
-            <center><strong><font color="#D34787">"Cesvi"</font></strong></center>
+            <center><strong><font color="#D34787">"Pollería La Granja"</font></strong></center>
     <center><small><font color="#2F4D97" face="Comic Sans MS,arial,verdana">Ciudad Iguala de la Independencia, Guerrero</font></small></center>
         </h1>
             </section>

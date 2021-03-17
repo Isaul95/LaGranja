@@ -84,9 +84,10 @@
                             <i class="fas fa-edit"></i> Practicas profesionales</a>
                         </li>
 
-                        <li><a href="<?php echo base_url();?>alumnos/Titulacion">
-                           <i class="fas fa-edit"></i> Titulación</a>
-                       </li>
+                        <li><a href="<?php echo base_url();?>alumnos/CorteCaja">
+                            <i class="fas fa-edit"></i> Corte de caja</a>
+                        </li>
+
                                    </ul>
                                </li>
  <?php endif;?>

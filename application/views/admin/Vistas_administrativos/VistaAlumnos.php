@@ -786,6 +786,14 @@
     </div>
   </div>
 
+
+  <div class="row">
+      <div class="col-md-12">
+          <a href="<?php echo base_url();?>Administrativos/Generaticket/generaTicketSRES" class="btn btn-primary btn-float"> <span class="fa fa-plus"></span> Ticket venta</a>
+      </div>
+  </div>
+
+
 </div>
 
 

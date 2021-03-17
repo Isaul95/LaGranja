@@ -68,23 +68,23 @@
                                    </a>
                                    <ul class="treeview-menu">
 
-                            <li><a href="<?php echo base_url();?>alumnos/altaBaucherBanco">
+                            <li><a href="<?php echo base_url();?>Cajero/altaBaucherBanco">
                                <i class="fas fa-money-check-alt"></i> Subir Baucher</a>
                            </li>
 
-                           <li><a href="<?php echo base_url();?>alumnos/Evaluacion_Alum_docente">
+                           <li><a href="<?php echo base_url();?>Cajero/Evaluacion_Alum_docente">
                               <i class="fas fa-edit"></i> Evaluación Docente</a>
                           </li>
 
-                          <li><a href="<?php echo base_url();?>alumnos/Servicio_social">
+                          <li><a href="<?php echo base_url();?>Cajero/Servicio_social">
                              <i class="fas fa-edit"></i> Servicio social</a>
                          </li>
 
-                         <li><a href="<?php echo base_url();?>alumnos/Practicas_profesionales">
+                         <li><a href="<?php echo base_url();?>Cajero/Practicas_profesionales">
                             <i class="fas fa-edit"></i> Practicas profesionales</a>
                         </li>
 
-                        <li><a href="<?php echo base_url();?>alumnos/CorteCaja">
+                        <li><a href="<?php echo base_url();?>Cajero/CorteCaja">
                             <i class="fas fa-edit"></i> Corte de caja</a>
                         </li>
 

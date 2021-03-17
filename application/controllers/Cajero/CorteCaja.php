@@ -30,7 +30,7 @@ class CorteCaja extends CI_Controller {
 
 				$this->load->view('layouts/header');
 				$this->load->view('layouts/aside');
-				$this->load->view('admin/Vistas_Alumno/VistaCorteCaja',$data);
+				$this->load->view('admin/Vistas_Cajero/VistaCorteCaja',$data);
 				$this->load->view('layouts/footer');
 			}
 

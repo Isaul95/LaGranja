@@ -47,7 +47,7 @@
       				fecha : fecha,
       		    }
       		$.ajax({
-            url: base_url+'Alumnos/CorteCaja/consultarApertura',
+            url: base_url+'Cajero/CorteCaja/consultarApertura',
             type: "post",
             dataType: "json",
       			data : (datos),
@@ -166,7 +166,7 @@
                 }else{
 
                   $.ajax({
-                    url: base_url+'Alumnos/CorteCaja/registroCorteDeCaja',
+                    url: base_url+'Cajero/CorteCaja/registroCorteDeCaja',
                     type: "post",
                     dataType: "json",
                     data : (datos),
@@ -193,7 +193,7 @@
                 debugger;
                 $.ajax({
                     type: "get",
-                    url: base_url+'Alumnos/CorteCaja/verProductosCrudosVendidos',
+                    url: base_url+'Cajero/CorteCaja/verProductosCrudosVendidos',
                     dataType: "json",
                     success: function(response) {
                         var i = "1";
@@ -224,7 +224,7 @@
     //       					fecha : fecha,
     //       		    }
     //       		$.ajax({
-    //             url: base_url+'Alumnos/CorteCaja/consultaCountAlumnos',
+    //             url: base_url+'Cajero/CorteCaja/consultaCountCajero',
     //             type: "post",
     //             dataType: "json",
     //       			data : (datos),
@@ -254,7 +254,7 @@
   //       					fecha : fecha,
   //       		    }
   //       		$.ajax({
-  //             url: base_url+'Alumnos/CorteCaja/consultaCountAlumnos',
+  //             url: base_url+'Cajero/CorteCaja/consultaCountCajero',
   //             type: "post",
   //             dataType: "json",
   //       			data : (datos),

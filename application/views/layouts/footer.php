@@ -92,20 +92,6 @@
 $('#btn_RegistroPago').DataTable( {
  "order": [[ 5, "asc" ]], //ordenar de forma ascendente
 
- "language": {
-   "lengthMenu": "Mostrar _MENU_ registros por pagina",
-   "zeroRecords": "No se encontraron resultados en su busqueda",
-   "searchPlaceholder": "Buscar Registros",
-   "info": "Total: _TOTAL_ registros",
-   "infoEmpty": "No Existen Registros",
-   "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-   "search": "Buscar:",
-   "paginate": {
-     "first": "Primero",
-     "last": "Último",
-     "next": "Siguiente",
-     "previous": "Anterior"
-   }, /*  ESTO ES PARA CAMBIAR DE IDIOMA */
  }
 });
         }) -->
@@ -113,59 +99,69 @@ $('#btn_RegistroPago').DataTable( {
 
 
 
-<!--  SON LAS LIGAS K SE ESTAN AGREGARNDO PARA LOS MODULOS DEL CESVI    -->
-
-<script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/archivos.js"></script>
-<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/registroPago.js"></script> -->
-<script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/registroPago.js"></script>
-<script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Finanzas/formatoregistroDePagos.js"></script>
-
-<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Alumnos/darAltaBaucherPago.js"></script> -->
-
-<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrador_AsignarPermisosRoles/Permisos.js"></script> -->
-
-<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Finanzas/habilitarAlumnos.js"></script> -->
+<script src="<?php echo base_url();?>assets/template/dist/js/js-granja/archivos.js"></script>
+<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-granja/registroPago.js"></script> -->
+<script src="<?php echo base_url();?>assets/template/dist/js/js-granja/registroPago.js"></script>
+<script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Finanzas/formatoregistroDePagos.js"></script>
+<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Alumnos/darAltaBaucherPago.js"></script> -->
+<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Administrador_AsignarPermisosRoles/Permisos.js"></script> -->
+<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Finanzas/habilitarAlumnos.js"></script> -->
 <!-- ===========================  Administrativos =============================--->
 <!-- ===========================  Periodo escolar =============================--->
-<script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/PeriodoEscolar.js"></script>
+<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Administrativos/PeriodoEscolar.js"></script> -->
 <!-- ===========================  Licenciatura =============================--->
-<script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/Carreras.js"></script>
+<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Administrativos/Carreras.js"></script> -->
 <!-- ===========================  Profesores =============================--->
-<script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/Profesores.js"></script>
+<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Administrativos/Profesores.js"></script> -->
 <!-- ===========================  Alumnos  =============================--->
-<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/Alumnos.js"></script> -->
+<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Administrativos/Alumnos.js"></script> -->
 <!-- ===========================  Materias  =============================--->
-<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/Materias.js"></script> -->
+<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Administrativos/Materias.js"></script> -->
 <!-- ========== Documentos de Alumnos (constancias, boleta, horarios etc,)=========  -->
-<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/DocumentacionAlumnos.js"></script> -->
+<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Administrativos/DocumentacionAlumnos.js"></script> -->
 <!-- ========== Calificaciones de alumnos x parte del administrador =========  -->
-<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/CalificacionesAlumnosAdmin.js"></script> -->
+<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Administrativos/CalificacionesAlumnosAdmin.js"></script> -->
 <!-- ========== Hacer el horario del profesor =========  -->
-<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/HacerHorarioProfesor.js"></script> -->
+<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Administrativos/HacerHorarioProfesor.js"></script> -->
 <!-- ========== Subir planeación del profesor =========  -->
-<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Profesores/PlaneacionProfesores.js"></script> -->
+<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Profesores/PlaneacionProfesores.js"></script> -->
 <!--  Horarioalumno ------------------------>
-<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/HorarioAlumno.js"></script> -->
+<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Administrativos/HorarioAlumno.js"></script> -->
 
 <!--  ==================== EVALUACION ALUMNO A DOCENTE ========================  -->
-<script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Alumnos/evaluacion_Alum_docente.js"></script>
+<script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Cajero/evaluacion_Alum_docente.js"></script>
 
 <!-- ===== ULTIMOS TRAMITES ENVIOS DE OFICIOS DE SERVICIO SOCIAL, TITULACION Y PRACTICAS PROFESIONALES   ====  -->
-<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Alumnos/proceso_final.js"></script> -->
+<!-- <script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Alumnos/proceso_final.js"></script> -->
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  SON LAS LIGAS K SE ESTAN AGREGARNDO PARA LOS MODULOS DE LA POLLERIA LA GRANJA    -->
+
 
 <!-- Productos -->
-<script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/productos/Productos.js"></script>
+<script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Administrativos/productos/Productos.js"></script>
 
 <!-- Apertura -->
-<script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/apertura/Apertura.js"></script>
+<script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Administrativos/apertura/Apertura.js"></script>
+
 <!-- Gastos -->
-<script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/gastos/Gastos.js"></script>
+<script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Administrativos/gastos/Gastos.js"></script>
 
 <!-- Producto Externo -->
-<script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/productoExterno/ProductoExterno.js"></script>
+<script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Administrativos/productoExterno/ProductoExterno.js"></script>
 
 <!-- Producto Locales -->
-<script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Administrativos/locales/Locales.js"></script>
+<script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Administrativos/locales/Locales.js"></script>
 
 <!-- Realizar corte de caja x parte del cajero -->
-<script src="<?php echo base_url();?>assets/template/dist/js/js-cesvi/Alumnos/corte_caja.js"></script>
+<script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Cajero/corte_caja.js"></script>

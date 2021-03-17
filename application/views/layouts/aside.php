@@ -57,18 +57,16 @@
 <!--  AKI EMPIEZA  PARA LOS ALUMNOS EN EL ASide =============================00 -->
 <!-- <?php echo $this->session->userdata("username")?> <br>
 <?php echo $this->session->userdata("rol")?> -->
-
- <?php if($user==$student):?>
-                                <li class="treeview">
-                                   <a href="#">   <!--- class="fa fa-cogs" -->
-                                       <i class="fas fa-user-graduate"></i>  <span>Alumnos</span>
+<?php if($user==$student):?>
+    <li class="treeview">
+    <a href="#">
+                                       <i class="fas fa-user-graduate"></i>  <span>Corte de caja</span>
                                        <span class="pull-right-container">
                                            <i class="fa fa-angle-left pull-right"></i>
                                        </span>
                                    </a>
                                    <ul class="treeview-menu">
-
-                            <li><a href="<?php echo base_url();?>Cajero/altaBaucherBanco">
+                   <!-- <li><a href="<?php echo base_url();?>Cajero/altaBaucherBanco">
                                <i class="fas fa-money-check-alt"></i> Subir Baucher</a>
                            </li>
 
@@ -82,7 +80,8 @@
 
                          <li><a href="<?php echo base_url();?>Cajero/Practicas_profesionales">
                             <i class="fas fa-edit"></i> Practicas profesionales</a>
-                        </li>
+                        </li>-->
+                           
 
                         <li><a href="<?php echo base_url();?>Cajero/CorteCaja">
                             <i class="fas fa-edit"></i> Corte de caja</a>
@@ -91,11 +90,13 @@
                                    </ul>
                                </li>
  <?php endif;?>
+ 
 <!--  AKI termina finally  PARA LOS ALUMNOS EN EL ASide =============================00 -->
 
 
 
 <?php if($user==1):?>
+
                     <li class="treeview">
                         <a href="#">
                             <i class="fas fa-balance-scale"></i> <span>Administrativos</span>
@@ -104,8 +105,7 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-
-                            <li><a href="<?php echo base_url();?>Administrativos/PeriodoEscolar">
+                        <!--<li><a href="<?php echo base_url();?>Administrativos/PeriodoEscolar">
                                 <i class="far fa-dot-circle"></i> Periodo Escolar</a>
                             </li>
                           <li><a href="<?php echo base_url();?>Administrativos/Carreras">
@@ -130,7 +130,8 @@
 
                           <li><a href="<?php echo base_url();?>Administrativos/Calificaciones">
                               <i class="far fa-dot-circle"></i> Calificaciones</a></li>
-
+-->
+                            
                               <!-- ============================== Inicio Modificacion Nacho ======================================== -->
                       <!-- Inicio Seccion de Productos -->
                           <li>
@@ -160,7 +161,7 @@
                         </ul>
                     </li>
 <?php endif;?>
-<?php if($user==1):?>
+<!--<?php if($user==1):?>
                     <li class="treeview">
                         <a href="#">
                             <i class="fas fa-balance-scale"></i> <span>Finanzas</span>
@@ -177,8 +178,30 @@
 
                         </ul>
                     </li>
+<?php endif;?>-->
+
+<?php if($user==1):?>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fas fa-balance-scale"></i> <span>Vemtas</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+
+                          <li><a href="<?php echo base_url();?>Finanzas/HabilitarAlumnos">
+                             <i class="far fa-dot-circle"></i> Hacer venta</a>
+                         </li>
+                         <li><a href="<?php echo base_url();?>Finanzas/HabilitarAlumnos">
+                             <i class="far fa-dot-circle"></i>Consulta de ventas</a>
+                         </li>
+
+
+                        </ul>
+                    </li>
 <?php endif;?>
-<?php if($user==3):?>
+<!--<?php if($user==3):?>
                     <li class="treeview">
                         <a href="#">
                             <i class="fas fa-balance-scale"></i> <span>Profesores</span>
@@ -195,7 +218,8 @@
                             <i class="far fa-dot-circle"></i> Agregar calificaciones</a></li>
                         </ul>
                     </li>
-<?php endif;?>
+<?php endif;?>-->
+
 <?php if($user==1):?>
                     <li class="treeview">
                       <a href="#">

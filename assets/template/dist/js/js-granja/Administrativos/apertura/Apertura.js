@@ -180,6 +180,7 @@ $(document).on("click", "#btnaddapertura", function (e) {
                     llenartablaapertura();
                 } else {
                     toastr["error"](response.message);
+                    $('#btn_apertura').hide();
                 }
             },
         });

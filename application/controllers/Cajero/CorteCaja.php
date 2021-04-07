@@ -69,10 +69,18 @@ class CorteCaja extends CI_Controller {
 
 			  if ($this->Modelo_CorteCaja->insert_entryCaja($data_cortes)) {
 						$this->Modelo_CorteCaja->insert_en_Utilidades($datas_utilidad);
+						// base_url(); ? > auth/logout
 						$data = array('responce' => 'success', 'message' => 'Corte de caja realizado correctamente...!');
+						// redirect(base_url()."auth/logout");
+
+						// if ($data = array('responce' => 'success')) {
+						// 		redirect(base_url()."auth/logout");
+						// }
+
 					} else {
 						$data = array('responce' => 'error', 'message' => 'Fallo al realizar el corte de caja...!');
 					}
+
 				echo json_encode($data);
 
 		}

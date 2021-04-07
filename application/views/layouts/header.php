@@ -48,9 +48,9 @@
             <!-- Logo -->
             <a  class="logo"> <!--- SOBRARR NO ME SIRVE href="../../index2.html" -->
   <!-- CUANDO LA BARRA DE OCULTA ALA IZKIERDA mini logo for sidebar mini 50x50 pixels   ISAULLLL    -->
-                <span class="logo-mini"><b>C</b>E</span>
+                <span class="logo-mini"><b>L</b>G</span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b> "CESVI" </b></span>
+                <span class="logo-lg"><b> .:: La Granja ::. </b></span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">

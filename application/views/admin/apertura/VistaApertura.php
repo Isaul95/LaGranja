@@ -21,7 +21,7 @@
                 <div class="col-md-12">
                   <?php if($permisos->insert == 1):?>
                     <div class="d-flex flex-row">
-                      <a type="button" class="btn btn-primary btn-float" data-toggle="modal" data-target="#modal_add_apertura"> <span class="fa fa-plus"></span> Nueva Apertura</a>
+                      <a type="button" class="btn btn-primary btn-float" data-toggle="modal" data-target="#modal_add_apertura"  id="btn_apertura" > <span class="fa fa-plus"></span> Nueva Apertura</a>
                     </div>
                 <?php endif;?>
               </div>

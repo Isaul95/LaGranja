@@ -52,9 +52,6 @@ function llenartablaproductos() {
                         data: "cantidad",
                     },
                     {
-                        data: "fecha_de_caducidad",
-                    },
-                    {
                         data: "fecha_y_hora",
                     },
 

@@ -39,7 +39,7 @@
                       <th width="10%">Tipo</th>
                       <th width="7%">Precio</th>
                       <th width="7%">Cantidad</th>
-                      <th>Fecha Caducidad</th>
+                      <!--<th>Fecha Caducidad</th>-->
                       <th>Fecha Registro</th>
                       <th class="text-center" width="7%">Acciones</th>
                     </tr>

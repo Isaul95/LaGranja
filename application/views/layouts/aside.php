@@ -81,7 +81,7 @@
                          <li><a href="<?php echo base_url();?>Cajero/Practicas_profesionales">
                             <i class="fas fa-edit"></i> Practicas profesionales</a>
                         </li>-->
-                           
+
 
                         <li><a href="<?php echo base_url();?>Cajero/CorteCaja">
                             <i class="fas fa-edit"></i> Corte de caja</a>
@@ -90,7 +90,7 @@
                                    </ul>
                                </li>
  <?php endif;?>
- 
+
 <!--  AKI termina finally  PARA LOS ALUMNOS EN EL ASide =============================00 -->
 
 
@@ -131,7 +131,7 @@
                           <li><a href="<?php echo base_url();?>Administrativos/Calificaciones">
                               <i class="far fa-dot-circle"></i> Calificaciones</a></li>
 -->
-                            
+
                               <!-- ============================== Inicio Modificacion Nacho ======================================== -->
                       <!-- Inicio Seccion de Productos -->
                           <li>
@@ -183,13 +183,16 @@
 <?php if($user==1):?>
                     <li class="treeview">
                         <a href="#">
-                            <i class="fas fa-balance-scale"></i> <span>Vemtas</span>
+                            <i class="fas fa-balance-scale"></i> <span>Ventas</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
 
+                          <li><a id="DescripcionVenta" href="<?php echo base_url();?>Ventas/VentasControlador">
+                             <i class="fas fa-hand-holding-usd"></i> Realizar venta</a>
+                         </li>
                           <li><a href="<?php echo base_url();?>Finanzas/HabilitarAlumnos">
                              <i class="far fa-dot-circle"></i> Hacer venta</a>
                          </li>

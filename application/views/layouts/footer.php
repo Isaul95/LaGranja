@@ -165,3 +165,6 @@ $('#btn_RegistroPago').DataTable( {
 
 <!-- Realizar corte de caja x parte del cajero -->
 <script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Cajero/corte_caja.js"></script>
+
+<!-- Realizar una venta -->
+<script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Ventas/Ventas.js"></script>

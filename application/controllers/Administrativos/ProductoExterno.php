@@ -44,6 +44,39 @@ public function getProductos(){
 
 }
 
+public function getTotal(){
+
+	if ($this->input->is_ajax_request()) {
+
+
+		if ($post = $this->ModeloProductoExterno->total()) {
+			$data = array('responce' => "success", "post" => $post);
+		}else{
+			$data = array('responce' => "error", "failed to fetch");
+		}
+		echo json_encode($data);
+	}else {
+		echo "No se permite este acceso directo...!!!";
+	}
+}
+
+//
+public function getPrecio(){
+
+	if ($this->input->is_ajax_request()) {
+
+		$nombre = $this->input->post('nombre');
+		if ($post = $this->ModeloProductoExterno->precio($nombre)) {
+			$data = array('responce' => "success", "post" => $post);
+		}else{
+			$data = array('responce' => "error", "failed to fetch");
+		}
+		echo json_encode($data);
+	}else {
+		echo "No se permite este acceso directo...!!!";
+	}
+}
+
 public function verProductosExt(){
 
   $posts = $this->ModeloProductoExterno->verProductosExt();
@@ -57,21 +90,55 @@ public function verProductosExt(){
 
 		if ($this->input->is_ajax_request()) {
 
-      $ajax_data = array(
+			$nombre = $this->input->post('producto');
+			$piezasAct = $this->input->post('pieza');
+			$piezas = floatval($piezasAct);
+			$existe = $this->ModeloProductoExterno->buscarProductoTemp($nombre);
+			//Verificar si ya hay o no un producto con el mismo nombre
+			if ($existe != null || $existe != '') {
+				// En caso de existir solo actualiza la cantidad
+				$canProE=$this->ModeloProductoExterno->buscarProductoTemp($nombre);
 
-          'producto' => $this->input->post('producto'),
-          'tipo' => $this->input->post('tipo'),
-          'pieza' => $this->input->post('pieza'),
-	        'precio' => $this->input->post('precio'),
-          'total' => $this->input->post('total'),
-          'tienda_externa' => $this->input->post('tienda'),
-          'fecha' => $this->input->post('fecha'),
-	      );
-        if ($this->ModeloProductoExterno->agregarProductoExterno($ajax_data)) {
+				foreach ($canProE->result() as $rowP){
+					$cantidadAnterior = floatval($rowP->pieza);
+					$costo = floatval($rowP->precio);
+				}
+				// Actualiza cantidad nueva
+				$cantidadNueva = $cantidadAnterior + $piezas;
+				//Actualiza subtotal
+				$subtotalPe= $cantidadNueva*$costo;
+
+				// Actualizar cantidad
+				if ($this->ModeloProductoExterno->actualizarCantidadProductoTemp($nombre, $cantidadNueva, $subtotalPe)) {
 					$data = array('res' => "success", 'message' => "¡Registro agregado!");
-	  		} else {
+				} else {
 					$data = array('res' => "error", 'message' => "¡Error! :(");
 				}
+				//
+
+
+			}else {
+				// En caso de no tener coincidencias, se agrega el producto
+				$ajax_data = array(
+
+	          'producto' => $this->input->post('producto'),
+	          'tipo' => $this->input->post('tipo'),
+	          'pieza' => $this->input->post('pieza'),
+		        'precio' => $this->input->post('precio'),
+	          'total' => $this->input->post('total'),
+	          'tienda_externa' => $this->input->post('tienda'),
+	          'fecha' => $this->input->post('fecha'),
+		      );
+	        if ($this->ModeloProductoExterno->agregarProductoExterno($ajax_data)) {
+						$data = array('res' => "success", 'message' => "¡Registro agregado!");
+		  		} else {
+						$data = array('res' => "error", 'message' => "¡Error! :(");
+					}
+
+
+			}
+
+
 
 	 		echo json_encode($data);
 
@@ -150,7 +217,7 @@ public function updateProductoExt(){
 
 
 
-# Agregar nuevo Producto Externo
+# Agregar las cantidades
 	public function agregarProductoExternoFinal(){
     $data='';
     $resultados = $this->ModeloProductoExterno->getProductosExternos();
@@ -178,7 +245,7 @@ public function updateProductoExt(){
 				$cantidadAnterior=0;
 
         if ($this->ModeloProductoExterno->agregarProductoExternoFinal($ajax_data)) {
-
+					// Se obtiene la cantidad anterior para sumar las piezas nuevas
 					$canPro=$this->ModeloProductoExterno->getCantidadProducto($nombr);
 
 					foreach ($canPro->result() as $rowP){
@@ -186,8 +253,9 @@ public function updateProductoExt(){
 					}
 
 					$cantidadNueva = $cantidadAnterior + $piezas_nuevas;
+					// Actualiza la cantidad en la tabla productos
 					$this->ModeloProductoExterno->actualizarCantidadProducto($nombr, $cantidadNueva);
-
+					// Eliminar todos los registros de la tabla temporal
           $this->ModeloProductoExterno->eliminarProductoExternoFinal();
 
       			$data = array('responce' => "success");

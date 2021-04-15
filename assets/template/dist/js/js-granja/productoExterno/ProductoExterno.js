@@ -1,11 +1,51 @@
 $(document).ready(function () {
+
     llenartablaproductoext(); // SEINICIALIZA LA FUNCTIO DE LA CARGA DEL LISTADO DE LA TABLA
     llenarLocales();
     llenarProductos();
     llenarLocalesM();
     llenarProductosEdit();
+    total();
 
-    document.getElementById('btnaddpexf').disabled=true;
+    $('#producto_externo').change(function(){
+
+      var nombre = $("#producto_externo").val();
+      $.ajax({
+          type: "post",
+          url: base_url + 'Administrativos/ProductoExterno/getPrecio',
+          data: {
+              nombre: nombre,
+          },
+          dataType: "json",
+          success: function (data) {
+              console.log(data); //ver la respuesta del json, los valores que contiene
+
+              $('#precio_pex').val(data.post.precio);
+
+
+          },
+      });
+
+     });
+
+     $('#piezas').keyup(function(){
+       var piezas = parseFloat($("#piezas").val());
+       var precio = parseFloat($("#precio_pex").val());
+       // Verifica que el input tenga algun numero
+       if ($("#piezas").val().length) {
+         var subtotal = parseFloat(piezas*precio);
+         $('#subtotal').val(subtotal);
+       }else {
+         $('#subtotal').val('');
+       }
+
+
+
+
+      });
+
+
+    //document.getElementById('btnaddpexf').disabled=true;
 
 
 
@@ -28,7 +68,14 @@ $("#modaleditpex").on("hide.bs.modal", function (e) {
     $("#formeditarpex")[0].reset();
 });
 
+$("#modal_cobrar").on("hide.bs.modal", function (e) {
+    total();
+    $("#cobrar")[0].reset();
+
+});
+
 function llenartablaproductoext() {
+    total();
     $.ajax({
         type: "get",
         url: base_url + 'Administrativos/ProductoExterno/listarProductoExterno',
@@ -156,6 +203,45 @@ function llenarLocalesM() {
   });
 
 }
+//--------------
+// Cobro
+$('#cobro').on("keyup",(function(){
+  var total = parseFloat($("#totalPext").val());
+
+  var cobro = parseFloat($("#cobro").val());
+  // Verifica que el input tenga algun numero
+  if ($("#cobro").val().length) {
+    if (cobro<total) {
+      $('#cambio').val('');
+    }else {
+      var cambio = cobro-total;
+      $('#cambio').val(cambio);
+    }
+  }
+
+}));
+
+
+
+//
+
+function total() {
+  //
+  $.ajax({
+      type: "get",
+      url: base_url + 'Administrativos/ProductoExterno/getTotal',
+
+      dataType: "json",
+      success: function (data) {
+          console.log(data); //ver la respuesta del json, los valores que contiene
+
+          $('#totalPext').val(data.post.total);
+
+
+      },
+  });
+
+}
 
 // Agregar ProductoExterno
 
@@ -199,6 +285,7 @@ $(document).on("click", "#btnaddpex", function (e) {
         fd.append("tienda", tienda);
         fd.append("fecha", fecha);
 
+
         $.ajax({
             type: "post",
             url: base_url + 'Administrativos/ProductoExterno/agregarProductoExterno',
@@ -213,7 +300,10 @@ $(document).on("click", "#btnaddpex", function (e) {
                     $("#modal_add_pex").modal("hide");
                     $("#addpex")[0].reset();
                     $("#tbl_pex").DataTable().destroy();
+
                     llenartablaproductoext();
+                    //location.reload();
+                    total();
                     document.getElementById('btnaddpexf').disabled=false;
                 } else {
                     toastr["error"](response.message);
@@ -258,6 +348,7 @@ $(document).on("click", "#del_pex", function (e) {
                         );
                         $("#tbl_pex").DataTable().destroy();
                         llenartablaproductoext();
+                        total();
                     }
                 },
             });
@@ -360,6 +451,7 @@ $(document).on("click", "#update_pex", function (e) {
                 $("#formeditarpex")[0].reset();
                 $("#tbl_pex").DataTable().destroy();
                 llenartablaproductoext();
+                total();
               } else {
                   toastr["error"](data.message);
               }
@@ -400,7 +492,10 @@ $(document).on("click", "#btnaddpexf", function (e) {
                             'success'
                         );
                         $("#tbl_pex").DataTable().destroy();
-                        llenartablaproductoext();
+                        $("#modal_cobrar").modal("hide");
+                        $("#cobrar")[0].reset();
+                        location.href="http://localhost/LaGranja/Administrativos/Productos"
+                        //llenartablaproductoext();
                     }else {
                       Swal.fire(
                           '¡No agregado!',
@@ -408,8 +503,12 @@ $(document).on("click", "#btnaddpexf", function (e) {
                           'error'
                       );
                       $("#tbl_pex").DataTable().destroy();
+                      $("#modal_cobrar").modal("hide");
+                      $("#cobrar")[0].reset();
                       llenartablaproductoext();
-                      document.getElementById('btnaddpexf').disabled=true;
+                      total();
+
+                      //document.getElementById('btnaddpexf').disabled=true;
                     }
                 },
             });

@@ -6,7 +6,7 @@
     <!-- Default box -->
     <div class="box box-solid colorfondo">
       <div class="box-body">
-        <div class="container">
+        <div class="container" id="pe">
           <div class="row">
             <div class="col-md-12 mt-5">
               <h1 class="text-center">
@@ -50,13 +50,16 @@
                   </thead>
 
 
+
                 </table>
+                <p>Total</p>
               </div>
             </div>
             <br>
             <?php if($permisos->insert == 1):?>
               <div class="">
-                <button type="button" class="btn btn-primary pull-right" id="btnaddpexf">Agregar productos</button>
+                <a type="button" class="btn btn-primary btn-float" data-toggle="modal" data-target="#modal_cobrar"> Cobrar</a>
+
               </div>
           <?php endif;?>
 
@@ -102,6 +105,10 @@
                         <label for="">Precio</label>
                         <input type="text" class="form-control" id="precio_pex" placeholder="Precio">
                       </div>
+                      <div class="form-group">
+                        <label for="">Subtotal</label>
+                        <input type="text" class="form-control" id="subtotal" readonly>
+                      </div>
 
 
                     </form>
@@ -114,6 +121,61 @@
                 </div>
               </div>
             </div>
+
+
+            <!-- Modal cobrar -->
+            <div class="modal fade" id="modal_cobrar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header bg-primary text-center">
+                    <strong class="modal-title" id="exampleModalLabel">Cobrar</strong>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="cobrar">
+
+                      <?php
+                        $id_usua_sss=$this->session->userdata('nombres');
+                        $cont=0;
+                      ?>
+
+                      <input type="hidden" id="id_usuario_co" name="" value="<?php echo $id_usua_sss;?>">
+
+
+
+                      <div class="form-group">
+                        <label for="">Total:</label>
+                        <input type="text" class="form-control" id="totalPext" readonly>
+                      </div>
+                      <div class="form-group">
+                        <label for="">Cobro:</label>
+                        <input type="text" class="form-control" id="cobro" placeholder="Cobro">
+                      </div>
+                      <div class="form-group">
+                        <label for="">Cambio:</label>
+                        <input type="text" class="form-control" id="cambio" readonly>
+                      </div>
+
+
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    <!-- Insert Button -->
+
+                    <button type="button" class="btn btn-primary pull-right" id="btnaddpexf">Finalizar</button>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
 
             <!-- Modal preparado para editar datos y file -->
             <div class="modal fade" id="modaleditpex" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

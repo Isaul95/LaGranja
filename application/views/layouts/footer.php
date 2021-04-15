@@ -158,7 +158,7 @@ $('#btn_RegistroPago').DataTable( {
 <script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Administrativos/gastos/Gastos.js"></script>
 
 <!-- Producto Externo -->
-<script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Administrativos/productoExterno/ProductoExterno.js"></script>
+<script src="<?php echo base_url();?>assets/template/dist/js/js-granja/productoExterno/ProductoExterno.js"></script>
 
 <!-- Producto Locales -->
 <script src="<?php echo base_url();?>assets/template/dist/js/js-granja/Administrativos/locales/Locales.js"></script>

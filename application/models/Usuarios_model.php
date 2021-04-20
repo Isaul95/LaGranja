@@ -50,5 +50,18 @@ class Usuarios_model extends CI_Model {
 			return false;
 		}
 	}
+	//Seccion de Apertura
+	public function comprobrarApertura($fecha){
+		//
+		$this->db->select('*');
+		$this->db->from('apertura');
+		$this->db->where('fecha', $fecha);
+		$query = $this->db->get();
+		if (count($query->result()) > 0) {
+		  return $query->row();
+		}
+
+	}
+
 
 }

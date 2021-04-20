@@ -24,12 +24,12 @@ class Apertura extends CI_Controller {
 public function listarAperturas(){
     $posts = $this->ModeloApertura->listarAperturas();
 		//print_r($posts);
+
     echo json_encode($posts);
 }
 
 public function getFechaApertura(){
     $posts = $this->ModeloApertura->traerFecha();
-		//print_r($posts);
     echo json_encode($posts);
 }
 
@@ -46,6 +46,30 @@ public function getFechaApertura(){
 				$data = array('res' => "error", 'message' => validation_errors());
 			} else {
 
+				//Productos
+				$productosA = array('Pollo rostizado' => 2,
+														'Pollo asado' => 2,
+														'Pech. broaster' => 7,
+														'Muslo broaster' => 7,
+														'Pierna broaster' => 7,
+														'Ala broaster' => 7,
+														'Alitas bbq' => 2,
+														'Barbacoa de pollo' => 1,
+														'Spagueti blanco' => 2,
+														'Spagueti rojo' => 1,
+														'Arroz blanco' => 1,
+														'Arroz rojo' => 2,
+														'Frijoles puercos' => 1,
+														'Frijoles peruanos' => 2,
+														'Frijoles charros' => 2,
+														'Cochinita' => 1,
+														'Pure' => 1,
+														'Nuggets' => 4,
+														'Mininuggets' => 8,
+														'Tacos' => 30
+													);
+
+
 			$fff=$this->input->post('fecha');
 			$fc = $this->ModeloApertura->traerFechaA($fff);
 			// Se compara si ya hay una apertura con la fecha actual
@@ -61,7 +85,26 @@ public function getFechaApertura(){
 		      );
 
 					if ($this->ModeloApertura->agregarApertura($ajax_data)) {
+
+						// Agregar Productos
+						foreach ($productosA as $product => $cant) {
+							// code...
+							$piezas_nuevas = floatval($cant);
+							//Se obtiene la cantidad de productos disponibles actual
+							$canPro=$this->ModeloApertura->getCantidadProducto($product);
+
+							foreach ($canPro->result() as $rowP){
+								$cantidadAnterior = floatval($rowP->cantidad);
+							}
+							//Se obtiene la nueva cantidad
+							$cantidadNueva = $cantidadAnterior + $piezas_nuevas;
+							// Actualiza la cantidad en la tabla productos
+							$this->ModeloApertura->actualizarCantidadProducto($product, $cantidadNueva);
+						}
+
+
 						$data = array('res' => "success", 'message' => "¡Registro agregado!");
+
 		  		} else {
 						$data = array('res' => "error", 'message' => "¡Error! :(");
 					}

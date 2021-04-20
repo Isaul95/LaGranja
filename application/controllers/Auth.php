@@ -37,8 +37,26 @@ class Auth extends CI_Controller {
 				'login' => TRUE
 			);
 			$this->session->set_userdata($data);
-			redirect(base_url()."dashboard");
+
+
+			//
+			$hoy = date("Y"."/"."m". "/"."d");
+
+			$fc = $this->Usuarios_model->comprobrarApertura($hoy);
+			// Se compara si ya hay una apertura con la fecha actual
+
+		   if ($fc == null || $fc == '') {
+
+				 redirect(base_url("Administrativos/Apertura/"));
+
+			}else {
+				// En caso de que si haya una apertura con la fecha actual
+				redirect(base_url()."dashboard");
+			}
+
 		}
+
+
 	}
 
 	public function logout(){

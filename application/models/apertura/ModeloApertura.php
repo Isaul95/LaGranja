@@ -61,4 +61,28 @@ public function delete_entry($id)
 }
 
 
+	//
+	public function getCantidadProducto($nombre){
+    $this->db->select('*');
+    $this->db->from('productos');
+    $this->db->where('nombre_producto', $nombre);
+    $query = $this->db->get();
+    if (count($query->result()) > 0) {
+        return $query;
+      }
+
+
+  }
+
+	//
+	public function actualizarCantidadProducto($nombre,$cantidad){
+    //
+    $this->db->where('nombre_producto', $nombre);
+    $this->db->set('cantidad', $cantidad);
+    return $this->db->update('productos');
+
+
+  }
+
+
 } // FIN / CIERRE DEL MODELO

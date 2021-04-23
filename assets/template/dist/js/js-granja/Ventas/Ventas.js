@@ -1,8 +1,24 @@
 var listaProductosComprados = [];
+var ventaID = 0;
+var fecha = new Date();
+var mes = fecha.getMonth()+1;
+var dia = fecha.getDate();
+//mes = String(mes);
+//dia = String(dia);
+//mes = mes.toString();
+//dia = dia.toString();
 
+//Arreglar lo del input number modificando los algoritmos copiados y con expresión regular
+//Cambiar el uso de mi arreglo a la tabla de descripcion de venta
+//Actualizar solo la celda que le corresponde al campo de cantidad en la DataTable
+//Insertar la compra en la BD
+//Corregir lo de que la datatable se desborde
 
-$(document).on("click", "#DescripcionVenta", function(e) {
+//En_turno  Realizada  Cancelada Credito-pendiente
 
+$(document).ready(function() {
+
+  ComprobarSiHayVentaEnTurno();
   MostrarTablaDescripcionVenta();
 
 });
@@ -32,9 +48,40 @@ $(document).on("click", "#BotonModalProductosAcompañantes", function(e) {
 });
 
 
+
+
+
+
+
+function ComprobarSiHayVentaEnTurno() {
+  var usuarioID = $("#id_usuario_venta").val();
+
+  if(mes < 9) {
+    mes = "0" + String(mes);
+  }
+  if(dia < 9) {
+    dia = "0" + dia.toString();
+  }
+  var fechaActual = fecha.getFullYear() + "/" + mes + "/" + dia;
+
+  $.ajax({
+    type: "post",
+    url: base_url + 'Ventas/VentasControlador/CrearVentaEnTurno',
+    data: {
+      usuarioID: usuarioID,
+      fechaActual: fechaActual,
+    },
+    dataType: "json",
+    success: function(ventaEnTurno) {
+      ventaID = ventaEnTurno.id_venta;
+      console.log(ventaID);
+    }
+  });
+}
+
+
 function MostrarTablaDescripcionVenta() {
 
-  var contador = "1";
   $('#TablaDescripcionVenta').DataTable({
     data: listaProductosComprados,
     responsive: true,
@@ -44,11 +91,11 @@ function MostrarTablaDescripcionVenta() {
         orderable: false,
       },
       {
-        data: 'precioProducto',
+        data: 'piezas',
         orderable: false,
       },
       {
-        data: 'piezas',
+        data: 'precioProducto',
         orderable: false,
       },
       {
@@ -60,10 +107,10 @@ function MostrarTablaDescripcionVenta() {
         searchable: false,
         data: function(row, type, set) {
           return `
-            <a href="#" id="BorrarProductoDeLaVenta" class="btn btn-danger btn-remove" PosicionArray="${contador - 1}">
+            <a href="#" id="BorrarProductoDeLaVenta" class="btn btn-danger btn-remove" NombreProducto="${row.nombreProducto}"">
             <i class="fas fa-shopping-cart"></i></a>
           `;
-        },//Como cuando pinte los cuadros
+        },
       },
     ],
     'language': idiomaEspañolTablas,
@@ -83,7 +130,6 @@ function MostrarTablaProductos() {
     },
     dataType: "json",
     success: function(datosProducto) {
-      var contador = "1";
       $('#TablaVentaProductos').DataTable({
         data: datosProducto,
         responsive: true,
@@ -104,18 +150,30 @@ function MostrarTablaProductos() {
             orderable: false,
             searchable: false,
             data: function(row, type, set) {
-              return `
-                <input type="number" id="CantidadPiezasDeseadasDelProductoConID` + row.id_producto + `" style="width: 50%; text-align: center;" min="0" max="${row.cantidad}" step="1" value="0" onkeyup=enforceMinMax(this)>
-              `;
+              if (row.cantidad > 0) {
+                return `
+                  <input type="number" id="CantidadPiezasDeseadasDelProductoConID` + row.id_producto + `" style="width: 50%; text-align: center;" min="0" max="${row.cantidad}" step="1" value="0" onkeyup=enforceMinMax(this)>
+                `;
+              } else {
+                return `
+                  <input type="number" style="width: 50%; text-align: center;" value="0" disabled>
+                `;
+              }
             },
           },
           {
             orderable: false,
             searchable: false,
             data: function(row, type, set) {
-              return `
-                <a href="#" id="AgregarProductoALaVenta" class="btn btn-success btn-remove" NombreProducto="${row.nombre_producto}" Precio="${row.precio}" ProductoID="${row.id_producto}"><i class="fas fa-shopping-cart"></i></a>
-              `;
+              if (row.cantidad > 0) {
+                return `
+                  <a href="#" id="AgregarProductoALaVenta" class="btn btn-success btn-remove" NombreProducto="${row.nombre_producto}" Precio="${row.precio}" ProductoID="${row.id_producto}" TipoProducto="${row.tipo_producto}"><i class="fas fa-shopping-cart"></i></a>
+                `;// IndexTabla="` + $('#TablaVentaProductos').DataTable().row(this).index() + `"
+              } else {
+                return `
+                  <a href="#" class="btn btn-success btn-remove" disabled><i class="fas fa-shopping-cart"></i></a>
+                `;
+              }
             },
           },
         ],
@@ -137,11 +195,77 @@ $(document).on("click", "#EliminarTablaVentaProductos", function(e) {
 $(document).on("click", "#AgregarProductoALaVenta", function(e) {
 
   var nombreProducto = $(this).attr("NombreProducto");
-  var precio = $(this).attr("Precio");
   var productoID = $(this).attr("ProductoID");
   var piezas = $('#CantidadPiezasDeseadasDelProductoConID'+productoID).val();
+  var precio = $(this).attr("Precio");
+  var precioTotal = precio * piezas;
 
-  console.log(nombreProducto, precio, piezas);
+  if (piezas > 0) {
+
+    var posicionProductoLista = listaProductosComprados.findIndex(producto => producto.nombreProducto == nombreProducto);
+
+    if (posicionProductoLista >= 0) {
+      listaProductosComprados[posicionProductoLista].piezas = piezas;
+      listaProductosComprados[posicionProductoLista].precioTotal = precioTotal;
+    } else {
+      listaProductosComprados.push({"nombreProducto": nombreProducto, "piezas": piezas, "precioProducto": precio,"precioTotal": precioTotal});
+    }
+  }
+
+  var tipoProducto = $(this).attr("TipoProducto");
+  /*var indexTabla = $(this).attr("IndexTabla");
+  console.log(indexTabla);*/
+
+  $.ajax({
+    type: "post",
+    url: base_url + 'Ventas/VentasControlador/CambiarCantidadProducto',
+    data: {
+      operacion: "Resta",
+      piezas: piezas,
+      productoID: productoID,
+    },
+    dataType: "json",
+    success: function(consulta) {
+      if (consulta.Resultado == "Exitoso") {
+        //var cantidad = consulta.Cantidad;
+        console.log(consulta.Valor.cantidad);
+        //ActualizarCantidadProductoEnLaTabla(cantidad, );
+      }
+    },
+  });
+
+  $('#TablaDescripcionVenta').DataTable().destroy();
+  MostrarTablaDescripcionVenta();
+
+});
+
+
+$(document).on("click", "#BorrarProductoDeLaVenta", function(e) {
+
+  var nombreProducto = $(this).attr("NombreProducto");
+  var posicionProductoLista = listaProductosComprados.findIndex(producto => producto.nombreProducto == nombreProducto);
+  var piezas = listaProductosComprados[posicionProductoLista].piezas;
+
+  listaProductosComprados.splice(posicionProductoLista, 1);
+
+  $.ajax({
+    type: "post",
+    url: base_url + 'Ventas/VentasControlador/CambiarCantidadProducto',
+    data: {
+      operacion: "Suma",
+      piezas: piezas,
+      nombreProducto: nombreProducto,
+    },
+    dataType: "json",
+    success: function(consulta) {
+      if (consulta.Resultado == "Exitoso") {
+        //console.log(consulta.Cantidad);
+      }//Duda, ¿cómo hacer una de estas cosas sin que le retornen respuesta?, o alguna variante
+    },
+  });
+
+  $('#TablaDescripcionVenta').DataTable().destroy();
+  MostrarTablaDescripcionVenta();
 
 });
 

@@ -25,12 +25,66 @@ class VentasControlador extends CI_Controller {
   }
 
 
+  public function CrearVentaEnTurno() {
+    if ($this->input->is_ajax_request()) {
+      $UsuarioID = $this->input->post('usuarioID');
+      $FechaActual = $this->input->post('fechaActual');
+      $VentaID = $this->VentasModelo->BuscarIDVenta($UsuarioID, $FechaActual);
+      if ($VentaID->row() <= 0) {
+        $this->VentasModelo->CrearVenta($UsuarioID, $FechaActual);
+        $VentaID = $this->VentasModelo->BuscarIDVenta($UsuarioID, $FechaActual);
+      }
+      echo json_encode($VentaID);
+    } else {
+      echo "No se permite este acceso directo";
+    }
+  }
+
+
   public function EnlistarProductos() {
     if ($this->input->is_ajax_request()) {
       $TipoProducto = $this->input->post('tipoProducto');
       //echo "<script> alert('".$Hola."'); </script>";
       $MostrarConsulta = $this->VentasModelo->LeerProductos($TipoProducto);
 		  echo json_encode($MostrarConsulta);
+    } else {
+      echo "No se permite este acceso directo";
+    }
+  }
+
+
+  public function MostrarDescripcionDeLaVentaEnTurno() {
+    if ($this->input->is_ajax_request()) {
+      $VentaID = $this->input->post('ventaID');
+      $UsuarioID = $this->input->post('usuarioID');
+      $MostrarConsulta = $this->VentasModelo->LeerDescripcionDeLaVentaEnTurno($VentaID, $UsuarioID, $EstadoVenta);
+      echo json_encode($MostrarConsulta);
+    } else {
+      echo "No se permite este acceso directo";
+    }
+  }
+
+
+  public function CambiarCantidadProducto () {
+    if ($this->input->is_ajax_request()) {
+
+      $operacion = $this->input->post('operacion');
+      $piezas = $this->input->post('piezas');
+
+      if ($operacion == "Resta") {
+        $identificador = $this->input->post('productoID');
+      } else {
+        $identificador = $this->input->post('nombreProducto');
+      }
+
+      $Cantidad = $this->VentasModelo->ActualizarCantidadProducto($operacion, $piezas, $identificador);
+
+      if ($Cantidad != "Error") {
+        $Consulta = array ('Resultado' => "Exitoso", 'Valor' => $Cantidad);
+      } else {
+        $Consulta = array ('Resultado' => "Erroneo", 'Valor' => $Cantidad);
+      }
+      echo json_encode($Consulta);
     } else {
       echo "No se permite este acceso directo";
     }

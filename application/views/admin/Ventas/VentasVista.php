@@ -4,6 +4,12 @@
       <div class="box-body">
         <div class="container">
 
+          <?php
+            $id_user=$this->session->userdata('id');
+          ?>
+
+          <input type="hidden" id="id_usuario_venta" name="" value="<?php echo $id_user;?>">
+
 
           <div class="row">
             <div class="col-md-12 mt-5">

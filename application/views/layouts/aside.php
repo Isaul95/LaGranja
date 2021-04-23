@@ -190,7 +190,7 @@
                         </a>
                         <ul class="treeview-menu">
 
-                          <li><a id="DescripcionVenta" href="<?php echo base_url();?>Ventas/VentasControlador">
+                          <li><a href="<?php echo base_url();?>Ventas/VentasControlador">
                              <i class="fas fa-hand-holding-usd"></i> Realizar venta</a>
                          </li>
                           <li><a href="<?php echo base_url();?>Finanzas/HabilitarAlumnos">

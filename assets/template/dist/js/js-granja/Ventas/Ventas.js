@@ -15,11 +15,32 @@ var dia = fecha.getDate();
 //Corregir lo de que la datatable se desborde
 
 //En_turno  Realizada  Cancelada Credito-pendiente
+/*window.onload = function() {
+  
+  if (window.location.href.indexOf('VentaVista.php') > -1) {
+    //carousel();
+   
+  }
+}
+
+$(window).load(function(){
+
+  if(document.URL == "/car-driving.html")
+  {
+    overlay.show();
+    overlay.appendTo(document.body);
+    $('.popup').show();    
+    
+    return false;
+  }
+});*/
+
 
 $(document).ready(function() {
-
-  ComprobarSiHayVentaEnTurno();
-  MostrarTablaDescripcionVenta();
+  
+  //ComprobarSiHayVentaEnTurno();
+  //MostrarTablaDescripcionVenta();
+  ventas_en_turno();
 
 });
 
@@ -47,40 +68,95 @@ $(document).on("click", "#BotonModalProductosAcompañantes", function(e) {
 
 });
 
-
-
-
-
-
-
 function ComprobarSiHayVentaEnTurno() {
   var usuarioID = $("#id_usuario_venta").val();
-
-  if(mes < 9) {
-    mes = "0" + String(mes);
+  
+  var fecha = new Date();
+  var concat="";
+  switch (fecha.getMonth() + 1) {
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+      case 6:
+      case 7:
+      case 8:
+      case 9:
+        var fecha_a_insertar = concat.concat(fecha.getFullYear(),"/","0",fecha.getMonth()+1,"/",fecha.getDate());
+      break;
+      default:
+        var fecha_a_insertar = concat.concat(fecha.getFullYear(),"/",fecha.getMonth()+1,"/",fecha.getDate());
+      break;
   }
-  if(dia < 9) {
-    dia = "0" + dia.toString();
-  }
-  var fechaActual = fecha.getFullYear() + "/" + mes + "/" + dia;
+console.log(fecha_a_insertar);
 
   $.ajax({
     type: "post",
     url: base_url + 'Ventas/VentasControlador/CrearVentaEnTurno',
     data: {
       usuarioID: usuarioID,
-      fechaActual: fechaActual,
+      fechaActual: fecha_a_insertar,
     },
     dataType: "json",
     success: function(ventaEnTurno) {
-      ventaID = ventaEnTurno.id_venta;
-      console.log(ventaID);
+      toastr["success"](ventaEnTurno.message);
+     // ventaID = ventaEnTurno.id_venta;
+      //console.log(ventaID);
     }
   });
 }
+function ventas_en_turno() {
+  
+      var usuarioID = $("#id_usuario_venta").val();
+  
+  $.ajax({
+      type: "post",
+      url: base_url + 'Ventas/VentasControlador/listar_venta_en_turno',
+      data: {
+        usuarioID: usuarioID,
+      },
+      dataType: "json",
+      success: function (response) {
+          var i = "1";
+          $("#TablaDescripcionVenta").DataTable({
+              data: response,
+              responsive: true,
+              columns: [{
+                  data: "id_producto",
+                  "visible": false,
+                  "searchable": false
+              },
+              {
+                  data: "producto",
+              },
+              {
+                  data: "piezas",
+              },
+              {
+                  data: "precio_unitario",
+              },
+              {
+                data: "importe",
+            },
+              {
+                  orderable: false,
+                  searchable: false,
+                  data: function (row, type, set) {
+                      return `
+                              <a href="#" id="del_materia" class="btn btn-danger btn-remove" value="${row.id_producto}"><i class="fas fa-trash-alt"></i></a>
+                          `;
+                  },
+              },
+              ],
+              "language": language_espaniol,
 
+          });
+      },
+  });
+}
 
-function MostrarTablaDescripcionVenta() {
+/*function MostrarTablaDescripcionVenta() {
 
   $('#TablaDescripcionVenta').DataTable({
     data: listaProductosComprados,
@@ -115,7 +191,7 @@ function MostrarTablaDescripcionVenta() {
     ],
     'language': idiomaEspañolTablas,
   });
-}
+}*/
 
 
 function MostrarTablaProductos() {
@@ -138,10 +214,10 @@ function MostrarTablaProductos() {
             data: 'nombre_producto',
             orderable: false,
           },
-          {
+          /*{
             data: 'precio',
             orderable: false,
-          },
+          },*/
           {
             data: 'cantidad',
             orderable: false,

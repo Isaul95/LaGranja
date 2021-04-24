@@ -48,6 +48,7 @@
                   <table class="table table-striped table-bordered table-hover table-condensed dt-responsive nowrap" id="TablaDescripcionVenta" style="background: white!important;" cellspacing="0">
                     <thead class="text-center bg-primary">
                       <tr>
+                      <th width="21%">id_producto</th>
                         <th width="21%">Producto</th>
                         <th width="21%">Piezas</th>
                         <th width="21%">Precio por pieza</th>
@@ -78,10 +79,10 @@
                         <thead class="text-center bg-primary">
                           <tr>
                             <th width="30%">Producto</th>
-                            <th width="30%">Precio</th>
+                            <!---<th width="30%">Precio</th>-->
                             <th width="30%">Piezas disponibles</th>
                             <th width="30%">Cantidad de piezas</th>
-                            <th width="10%">Agregar a la compra</th>
+                            <th width="10%">Agregar</th>
                           </tr>
                         </thead>
                       </table>

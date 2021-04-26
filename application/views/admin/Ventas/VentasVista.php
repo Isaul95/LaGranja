@@ -28,14 +28,13 @@
                 <div class="col-md-12">
                   <div class="d-flex flex-row">
                     <div class="col-sm-4 col-md-4">
-                      <a type="button" class="btn btn-primary btn-float" id="BotonModalProductosCrudos" data-toggle="modal" data-target="#ModalProductos">
-                      <i class="fas fa-drumstick-bite"></i> Productos crudos</a>
+                      <a type="button" class="btn btn-primary btn-float" id="BotonModalProductosCrudos"><i class="fas fa-drumstick-bite"></i> Productos crudos</a>
                     </div>
                     <div class="col-sm-4 col-md-4">
-                      <a type="button" class="btn btn-primary btn-float" id="BotonModalProductosCocidos" data-toggle="modal" data-target="#ModalProductos"> <i class="fas fa-drumstick-bite"></i> Productos cocidos</a>
+                      <a type="button" class="btn btn-primary btn-float" id="BotonModalProductosCocidos"> <i class="fas fa-drumstick-bite"></i> Productos cocidos</a>
                     </div>
                     <div class="col-sm-4 col-md-4">
-                      <a type="button" class="btn btn-primary btn-float" id="BotonModalProductosAcompañantes" data-toggle="modal" data-target="#ModalProductos"><i class="fas fa-drumstick-bite"></i> Productos acompañantes</a>
+                      <a type="button" class="btn btn-primary btn-float" id="BotonModalProductosAcompañantes"><i class="fas fa-drumstick-bite"></i> Productos acompañantes</a>
                     </div>
                   </div>
                 </div>
@@ -48,7 +47,7 @@
                   <table class="table table-striped table-bordered table-hover table-condensed dt-responsive nowrap" id="TablaDescripcionVenta" style="background: white!important;" cellspacing="0">
                     <thead class="text-center bg-primary">
                       <tr>
-                      <th width="21%">id_producto</th>
+                        <!--<th width="21%">id_producto</th>-->
                         <th width="21%">Producto</th>
                         <th width="21%">Piezas</th>
                         <th width="21%">Precio por pieza</th>
@@ -79,7 +78,6 @@
                         <thead class="text-center bg-primary">
                           <tr>
                             <th width="30%">Producto</th>
-                            <!---<th width="30%">Precio</th>-->
                             <th width="30%">Piezas disponibles</th>
                             <th width="30%">Cantidad de piezas</th>
                             <th width="10%">Agregar</th>

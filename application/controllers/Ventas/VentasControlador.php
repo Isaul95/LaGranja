@@ -6,6 +6,7 @@ class VentasControlador extends CI_Controller {
 
   private $permisos;
 
+
   public function __construct() {
   	parent::__construct();
   	$this->load->helper(array ('form', 'url'));
@@ -29,24 +30,26 @@ class VentasControlador extends CI_Controller {
     if ($this->input->is_ajax_request()) {
       $UsuarioID = $this->input->post('usuarioID');
       $FechaActual = $this->input->post('fechaActual');
-      //$VentaID = $this->VentasModelo->BuscarIDVenta($UsuarioID, $FechaActual);
-
-      /*if ($VentaID->row() <= 0) {
-        $this->VentasModelo->CrearVenta($UsuarioID, $FechaActual);
-        $VentaID = $this->VentasModelo->BuscarIDVenta($UsuarioID, $FechaActual);
+      $ResultadoBusqueda = $this->VentasModelo->BuscarIDVenta($UsuarioID, $FechaActual);
+      $VentaID = $ResultadoBusqueda->id_venta;
+      if ($VentaID == 0) {
+        $this->VentasModelo->InsertarVenta($UsuarioID, $FechaActual);
+        $ResultadoBusqueda = $this->VentasModelo->BuscarIDVenta($UsuarioID, $FechaActual);
+        $VentaID = $ResultadoBusqueda->id_venta;
       }
-      echo json_encode($VentaID);*/
-      if ($this->VentasModelo->BuscarIDVenta($UsuarioID, $FechaActual)){
+      echo json_encode($VentaID);
+      /*if ($this->VentasModelo->BuscarIDVenta($UsuarioID, $FechaActual)){
         $data = array('response' => "success", 'message' => "¡Ya hay una venta!");
     } else {
           $data = array('response' => "error", 'message' => "¡Todavia no hay una venta, se creará una!");
-          $this->VentasModelo->CrearVenta($UsuarioID, $FechaActual);
+          $this->VentasModelo->InsertarVenta($UsuarioID, $FechaActual);
     }
-  echo json_encode($data);
+    echo json_encode($data);*/
     } else {
       echo "No se permite este acceso directo";
     }
   }
+
 
   public function listar_venta_en_turno(){
 		if ($this->input->is_ajax_request()) {
@@ -54,14 +57,14 @@ class VentasControlador extends CI_Controller {
 			$posts = $this->VentasModelo->listar_venta_en_turno($UsuarioID);
 			echo json_encode($posts);
 		}else {
-			echo "No se permite este acceso directo...!!!";
+			echo "No se permite este acceso directo";
 		}
 	}
+
 
   public function EnlistarProductos() {
     if ($this->input->is_ajax_request()) {
       $TipoProducto = $this->input->post('tipoProducto');
-      //echo "<script> alert('".$Hola."'); </script>";
       $MostrarConsulta = $this->VentasModelo->LeerProductos($TipoProducto);
 		  echo json_encode($MostrarConsulta);
     } else {
@@ -70,12 +73,31 @@ class VentasControlador extends CI_Controller {
   }
 
 
-  public function MostrarDescripcionDeLaVentaEnTurno() {
+  public function AgregarProductoVenta() {
     if ($this->input->is_ajax_request()) {
+
+      $ProductoID = $this->input->post('productoID');
+      $PiezasCompradas = $this->input->post('piezasCompradas');
+      $PrecioPiezas = $this->input->post('precioPiezas');
       $VentaID = $this->input->post('ventaID');
-      $UsuarioID = $this->input->post('usuarioID');
-      $MostrarConsulta = $this->VentasModelo->LeerDescripcionDeLaVentaEnTurno($VentaID, $UsuarioID, $EstadoVenta);
-      echo json_encode($MostrarConsulta);
+
+      $DatosBusqueda = $this->VentasModelo->ComprobarSiExisteProductoDescripcionVenta($ProductoID, $VentaID);
+      $Datos = array(array("id" => 0));
+      print_r($DatosBusqueda);
+      print_r($Datos);
+      /*if ($DatosBusqueda[0]->id == 0) {
+        $ResultadoConsulta = $this->VentasModelo->InsertarProductoDescripcionVenta($ProductoID, $PiezasCompradas, $PrecioPiezas, $VentaID);
+        echo "<script> alert('$ResultadoConsulta'); </script>";
+      } else {
+
+        $NuevaCantidadPiezas = $PiezasCompradas + $DatosBusqueda[0]->cantidad;
+        $NuevoPrecioPiezas = $PrecioPiezas + $DatosBusqueda[0]->importe;
+        $ID = $DatosBusqueda[0]->id;
+
+        $ResultadoConsulta = $this->VentasModelo->ActualizarProductoSeleccionadoDescripcionVenta($NuevaCantidadPiezas, $NuevoPrecioPiezas, $ID);
+      }
+		  echo json_encode($ResultadoConsulta);*/
+      echo json_encode(0);
     } else {
       echo "No se permite este acceso directo";
     }
@@ -84,24 +106,19 @@ class VentasControlador extends CI_Controller {
 
   public function CambiarCantidadProducto () {
     if ($this->input->is_ajax_request()) {
+      $ProductoID = $this->input->post('productoID');
+      $CantidadModificada = $this->input->post('cantidadModificada');
 
-      $operacion = $this->input->post('operacion');
-      $piezas = $this->input->post('piezas');
-
-      if ($operacion == "Resta") {
-        $identificador = $this->input->post('productoID');
-      } else {
-        $identificador = $this->input->post('nombreProducto');
+      $SeActualizoLaCantidad = $this->VentasModelo->ActualizarCantidadProducto($ProductoID, $CantidadModificada);
+      if ($SeActualizoLaCantidad) {
+        $ResultadoBusqueda = $this->VentasModelo->BuscarCantidadProducto($ProductoID);
+        if($ResultadoBusqueda->cantidad < 0 ) {
+          $NuevaCantidad = -1;
+        } else {
+          $NuevaCantidad = $ResultadoBusqueda->cantidad;
+        }
       }
-
-      $Cantidad = $this->VentasModelo->ActualizarCantidadProducto($operacion, $piezas, $identificador);
-
-      if ($Cantidad != "Error") {
-        $Consulta = array ('Resultado' => "Exitoso", 'Valor' => $Cantidad);
-      } else {
-        $Consulta = array ('Resultado' => "Erroneo", 'Valor' => $Cantidad);
-      }
-      echo json_encode($Consulta);
+      echo json_encode($NuevaCantidad);
     } else {
       echo "No se permite este acceso directo";
     }
@@ -109,3 +126,5 @@ class VentasControlador extends CI_Controller {
 
 
 }
+//echo "<script> alert('$NuevaCantidadPiezas', '$NuevoPrecioPiezas', '$ID'); </script>";
+//echo "<script> alert('".$Hola."'); </script>";

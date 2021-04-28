@@ -105,7 +105,11 @@
 
     </div>
 </div>
+<?php
+  $id_user=$this->session->userdata('id');
+?>
 
+<input type="hidden" id="id_usuario" name="" value="<?php echo $id_user;?>">
 
 
   <div class="row my-4">

@@ -1,6 +1,33 @@
+
+$(document).on("click", "#cc", function (e) {
+    e.preventDefault();
+    // Se verfica la hora para poder hacer el corte de caja
+    var f = new Date();
+    var ho = f.getHours();
+    var min = f.getMinutes();
+    var seg = f.getSeconds();
+    if(min<10){
+      min='0'+min //agrega cero si el menor de 10
+    }
+      if(seg<10){
+        seg='0'+seg; //agrega cero si el menor de 10
+      }
+
+      hora = ho + ":" + min + ":" + seg;
+      // Solo se habilitara el corte de caja despues de las 5:00 pm
+      if(ho<17){
+        alert("No es posible realizar el corte de caja antes de las 5:00 pm");
+        location.href="http://localhost/LaGranja/"
+      }else {
+        location.href="http://localhost/LaGranja/Cajero/CorteCaja"
+      }
+
+});
+
+
     $(document).ready(function(){
       // debugger;
-
+//
 // SE EXTRAE LA FECHA DEL DIA ACTUAL
       var f = new Date();
         var yyyy = f.getFullYear();
@@ -146,7 +173,7 @@
                         ventas          : $("#id_ventas").val(),
                         gastos          : $("#id_gastos").val(),
                         id_apertura     : $("#id_apertura").val(),
-                        usuario         : $("#user_login").val(),
+                        usuario         : $("#id_usuario").val(),
                         monto_entregado : $("#id_monto").val(),
                         pagos           : $("#id_pagos").val(),
                         totalprocesados : totalprocesados,
@@ -161,7 +188,7 @@
                         utilidad           : utilidades,
                   }
 
-                if (datos.monto_entregado == "" ) {
+                if (datos.monto_entregado == "" || datos.monto_entregado == 0 ) {
                   alert("No a capturado el monto...!!!");
                 }else{
 
@@ -177,6 +204,8 @@
                             $("#tbl_consultaCortesDelDia").DataTable().destroy();
                             consultaAperturaYCorteDelDia(fecha); // update tabla de cortes
                             productoscrudosvendidos();
+                            location.href="http://localhost/LaGranja/Administrativos/Productos"
+
 
                       }else{
                         toastr["error"](data.message);

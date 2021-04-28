@@ -42,6 +42,12 @@ class CorteCaja extends CI_Controller {
 
 		//   Realizar registro del corte de caja del dia
 		public function registroCorteDeCaja(){
+			ini_set('date.timezone', 'America/Mexico_City');
+			$fff=date('Y/m/d', time());
+			//$fff= date("Y"."/"."m". "/"."d");
+			$fc = $this->Modelo_CorteCaja->traerFechaA($fff);
+			// Se compara si ya hay una apertura con la fecha actual
+		   if ($fc == null || $fc == '') {
 // 				DATOS PARA INSERT INTO TABLE CORTES DE CAJA
 					$data_cortes['id_apertura'] 		= $this->input->post('id_apertura');
 					$data_cortes['monto_entregado'] = $this->input->post('monto_entregado');
@@ -73,6 +79,12 @@ class CorteCaja extends CI_Controller {
 						$data = array('responce' => 'success', 'message' => 'Corte de caja realizado correctamente...!');
 						// redirect(base_url()."auth/logout");
 
+						//Cerrar sesion
+						$this->session->sess_destroy();
+						//$this->load->view("admin/login");
+						//redirect(base_url());
+						//redirect(base_url());
+
 						// if ($data = array('responce' => 'success')) {
 						// 		redirect(base_url()."auth/logout");
 						// }
@@ -82,6 +94,13 @@ class CorteCaja extends CI_Controller {
 					}
 
 				echo json_encode($data);
+
+
+			}else {
+				// En caso de que si haya una apertura con la fecha actual
+				$data = array('res' => "error", 'message' => "¡Error! Ya existe un corte con esta fecha :(");
+				echo json_encode($data);
+			}
 
 		}
 

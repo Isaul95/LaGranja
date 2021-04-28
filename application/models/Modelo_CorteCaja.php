@@ -13,7 +13,7 @@ class Modelo_CorteCaja extends CI_Model {
   public function insert_en_Utilidades($datas_utilidad){
         return $this->db->insert('utilidad', $datas_utilidad);
       }
-
+//
 
 //
 //   public function obtenerDatosDelAlumnoProcFin($numero_control){
@@ -168,5 +168,14 @@ class Modelo_CorteCaja extends CI_Model {
          return $resultados->result();
        }
 
+  public function traerFechaA($fecha){
+    $this->db->select('*');
+    $this->db->from('cortes');
+    $this->db->where('fecha', $fecha);
+    $query = $this->db->get();
+    if (count($query->result()) > 0) {
+      return $query->row();
+    }
+}
 
   }  // FIN DE LA CLASE MODELO

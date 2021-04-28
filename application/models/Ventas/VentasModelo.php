@@ -23,7 +23,7 @@ class VentasModelo extends CI_Model {
 
 
   public function listar_venta_en_turno($UsuarioID)
-  {
+  {//p.cantidad as cantidad   productos p
     $this->db->select('p.id_producto as id_producto, p.nombre_producto as producto, dv.cantidad as piezas, p.precio as precio_unitario ,dv.importe as importe');
       $this->db->from('descripcion_de_venta dv');
       $this->db->join("productos p","dv.id_producto = p.id_producto");
@@ -55,13 +55,12 @@ class VentasModelo extends CI_Model {
     $this->db->where('id_producto', $ProductoID);
     $this->db->where('id_venta', $VentaID);
     $DatosBusqueda = $this->db->get();
-    return (count($DatosBusqueda->result() > 0) ? $DatosBusqueda->result() : $DatosBusqueda = array(array("id" => 0)));
+    return (count($DatosBusqueda->result() > 0) ? $DatosBusqueda->result() : 0);
   }
 
 
   public function InsertarProductoDescripcionVenta ($ProductoID, $PiezasCompradas, $PrecioPiezas, $VentaID) {
     $ValoresCampos = array ('id_producto' => $ProductoID, 'cantidad' => $PiezasCompradas, 'importe' => $PrecioPiezas, 'id_venta' => $VentaID);
-    //Esta línea no es necesaria, pero así es como se retorna el ID de la columna que fue recien agregada
     return ($this->db->insert('descripcion_de_venta', $ValoresCampos) ? $this->db->insert_id() : 0);
   }
 
@@ -71,6 +70,13 @@ class VentasModelo extends CI_Model {
     $this->db->set('importe', $NuevoPrecioPiezas);
     $this->db->where('id', $ID);
     return ($this->db->update('descripcion_de_venta') ? $this->db->affected_rows() : 0);
+  }
+
+
+  public function EliminarProductoDescripcionVenta ($ProductoID, $VentaID) {
+    $this->db->where('id_producto', $ProductoID);
+    $this->db->where('id_venta', $VentaID);
+    return $this->db->delete('descripcion_de_venta');
   }
 
 
@@ -96,3 +102,9 @@ class VentasModelo extends CI_Model {
   }
 
 }
+
+/*if ($SegundaBusqueda) {
+  return $DatosBusqueda->result();
+} else {
+  return (count($DatosBusqueda->result() > 0) ? true : false);
+}*/

@@ -81,7 +81,6 @@ function ComprobarSiHayVentaEnTurno() {
   }
 
   var fechaActual = fecha.getFullYear() + "/" + mes + "/" + dia;
-  console.log(fechaActual);
   $.ajax({
     type: "post",
     url: base_url + 'Ventas/VentasControlador/CrearVentaEnTurno',
@@ -92,7 +91,6 @@ function ComprobarSiHayVentaEnTurno() {
     dataType: "json",
     success: function(id_venta) {
       ventaID = id_venta;
-      console.log(ventaID);
     }
   });
 }
@@ -131,8 +129,7 @@ function MostrarTablaDescripcionVenta() {
             searchable: false,
             data: function(row, type, set) {
               return `
-                <a href="#" id="BorrarProductoDeLaVenta" class="btn btn-danger btn-remove" ProductoID="${row.id_producto}"">
-                <i class="fas fa-shopping-cart"></i></a>
+                <a href="#" id="BorrarProductoDeLaVenta" class="btn btn-danger btn-remove" ProductoID="${row.id_producto}" Cantidad="${row.cantidad}" Piezas="${row.piezas}""><i class="fas fa-shopping-cart"></i></a>
               `;
             },
           },
@@ -239,7 +236,6 @@ $(document).on("click", "#AgregarProductoALaVenta", function(e) {
       success: function(resultadoConsulta) {
         if (resultadoConsulta > 0) {
           var nuevaCantidad = cantidad - piezasCompradas;
-          console.log(resultadoConsulta, nuevaCantidad);
           ModificarCantidadProducto(productoID, nuevaCantidad, tipoProducto);
         }
       }
@@ -252,8 +248,29 @@ $(document).on("click", "#AgregarProductoALaVenta", function(e) {
 
 $(document).on("click", "#BorrarProductoDeLaVenta", function(e) {
 
-  $('#TablaDescripcionVenta').DataTable().destroy();
-  MostrarTablaDescripcionVenta();
+  var productoID = $(this).attr("ProductoID");
+  var cantidad = $(this).attr("Cantidad");
+  var piezas = $(this).attr("Piezas");
+
+  if (cantidad > 0) {
+    $.ajax({
+      type: "post",
+      url: base_url + 'Ventas/VentasControlador/EliminarProductoVenta',
+      data: {
+        productoID: productoID,
+        ventaID: ventaID,
+      },
+      dataType: "json",
+      success: function(resultadoConsulta) {
+        if (resultadoConsulta == "Si se eliminó") {
+          var nuevaCantidad = cantidad + piezas;
+          ModificarCantidadProducto(productoID, nuevaCantidad, "");
+        }
+      }
+    });
+    $('#TablaDescripcionVenta').DataTable().destroy();
+    MostrarTablaDescripcionVenta();
+  }
 
 });
 
@@ -273,11 +290,13 @@ function ModificarCantidadProducto() {
     dataType: "json",
     success: function(nuevaCantidad) {
       console.log(nuevaCantidad);
-      if (nuevaCantidad >= 0) {
+      if (tipoProducto) {
         $('#TablaVentaProductos').DataTable().destroy();
         MostrarTablaProductos(tipoProducto);
       }
-    }
+    }/*,
+    error: function(nuevaCantidad) {
+    }*/
   });
 }
 

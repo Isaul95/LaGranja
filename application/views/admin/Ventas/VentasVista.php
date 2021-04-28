@@ -63,6 +63,15 @@
           </div>
 
 
+          <div class="row">
+            <div class="col-md-12">
+              <div class="d-flex flex-row">
+                <a type="button" class="btn btn-primary btn-float" data-toggle="modal" data-target="#ModalRealizarVenta">Realizar la venta</a>
+              </div>
+            </div>
+          </div>
+
+
           <div class="modal fade" id="ModalProductos" tabindex="-1" aria-labelledby="TituloModalProductos" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -90,6 +99,66 @@
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-danger" id="EliminarTablaVentaProductos" data-dismiss="modal">Cerrar</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+          <div class="modal fade" id="ModalRealizarVenta" tabindex="-1" aria-labelledby="TituloModalRealizarVenta" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+
+                <div class="modal-header bg-primary text-center">
+                  <strong id="TituloModalRealizarVenta" class="modal-title">Realizar venta</strong>
+                </div>
+
+                <div class="modal-body">
+                  <form id="FormularioRealizarVenta">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label text-center">Subtotal</label>
+                            <div class="col-sm-9">
+                              <input type="text" class="form-control text-center" id="SubtotalVenta" readonly/>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label text-center">Descuento</label>
+                            <div class="col-sm-9">
+                              <input type="text" class="form-control text-center" id="DescuentoVenta"/>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label text-center">Total</label>
+                            <div class="col-sm-9">
+                              <input type="text" class="form-control text-center" id="TotalVenta" readonly/>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label text-center">Pago</label>
+                            <div class="col-sm-9">
+                              <input type="text" class="form-control text-center" id="PagoVenta"/>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label text-center">Cambio</label>
+                            <div class="col-sm-9">
+                              <input type="text" class="form-control text-center" id="CambioVenta" readonly/>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                  <button type="button" class="btn btn-primary" id="CancelarVenta">Cancelar venta</button>
+                  <button type="button" class="btn btn-primary" id="ConcretarVenta">Concretar venta</button>
                 </div>
 
               </div>

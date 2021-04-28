@@ -82,22 +82,36 @@ class VentasControlador extends CI_Controller {
       $VentaID = $this->input->post('ventaID');
 
       $DatosBusqueda = $this->VentasModelo->ComprobarSiExisteProductoDescripcionVenta($ProductoID, $VentaID);
-      $Datos = array(array("id" => 0));
-      print_r($DatosBusqueda);
-      print_r($Datos);
-      /*if ($DatosBusqueda[0]->id == 0) {
-        $ResultadoConsulta = $this->VentasModelo->InsertarProductoDescripcionVenta($ProductoID, $PiezasCompradas, $PrecioPiezas, $VentaID);
-        echo "<script> alert('$ResultadoConsulta'); </script>";
-      } else {
-
+      if ($DatosBusqueda) {
         $NuevaCantidadPiezas = $PiezasCompradas + $DatosBusqueda[0]->cantidad;
         $NuevoPrecioPiezas = $PrecioPiezas + $DatosBusqueda[0]->importe;
         $ID = $DatosBusqueda[0]->id;
 
         $ResultadoConsulta = $this->VentasModelo->ActualizarProductoSeleccionadoDescripcionVenta($NuevaCantidadPiezas, $NuevoPrecioPiezas, $ID);
+      } else {
+        $ResultadoConsulta = $this->VentasModelo->InsertarProductoDescripcionVenta($ProductoID, $PiezasCompradas, $PrecioPiezas, $VentaID);
       }
-		  echo json_encode($ResultadoConsulta);*/
-      echo json_encode(0);
+		  echo json_encode($ResultadoConsulta);
+    } else {
+      echo "No se permite este acceso directo";
+    }
+  }
+
+
+  public function EliminarProductoVenta() {
+    if ($this->input->is_ajax_request()) {
+
+      $ProductoID = $this->input->post('productoID');
+      $VentaID = $this->input->post('ventaID');
+
+      $this->VentasModelo->EliminarProductoDescripcionVenta($ProductoID, $VentaID);
+
+      if($this->VentasModelo->ComprobarSiExisteProductoDescripcionVenta($ProductoID, $VentaID)){
+        $ResultadoConsulta = "No se eliminó";
+      } else {
+        $ResultadoConsulta = "Si se eliminó";
+      }
+		  echo json_encode($ResultadoConsulta);
     } else {
       echo "No se permite este acceso directo";
     }
@@ -128,3 +142,21 @@ class VentasControlador extends CI_Controller {
 }
 //echo "<script> alert('$NuevaCantidadPiezas', '$NuevoPrecioPiezas', '$ID'); </script>";
 //echo "<script> alert('".$Hola."'); </script>";
+
+/*$SegundaBusqueda = false;
+
+$PrimeraBusqueda = $this->VentasModelo->ComprobarSiExisteProductoDescripcionVenta($ProductoID, $VentaID, $SegundaBusqueda);
+
+if ($PrimeraBusqueda) {
+
+  $SegundaBusqueda = true;
+  $DatosBusqueda = $this->VentasModelo->ComprobarSiExisteProductoDescripcionVenta($ProductoID, $VentaID, $SegundaBusqueda);
+
+  $NuevaCantidadPiezas = $PiezasCompradas + $DatosBusqueda[0]->cantidad;
+  $NuevoPrecioPiezas = $PrecioPiezas + $DatosBusqueda[0]->importe;
+  $ID = $DatosBusqueda[0]->id;
+
+  $ResultadoConsulta = $this->VentasModelo->ActualizarProductoSeleccionadoDescripcionVenta($NuevaCantidadPiezas, $NuevoPrecioPiezas, $ID);
+} else {
+  $ResultadoConsulta = $this->VentasModelo->InsertarProductoDescripcionVenta($ProductoID, $PiezasCompradas, $PrecioPiezas, $VentaID);
+}*/

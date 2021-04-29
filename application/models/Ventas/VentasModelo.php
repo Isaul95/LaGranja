@@ -13,27 +13,21 @@ class VentasModelo extends CI_Model {
     $this->db->where('fecha_reporte', $FechaActual);
     $VentaID = $this->db->get();
     return (count($VentaID->result() > 0) ? $VentaID->row() : 0);
-    //VentaID = $this->db->get('venta');
-    //return $VentaID->row();
-    /*$query = $this->db->get();
-    if (count($query->result()) > 0) {
-      return $query->row();
-    }*/
   }
 
 
-  public function listar_venta_en_turno($UsuarioID)
-  {//p.cantidad as cantidad   productos p
-    $this->db->select('p.id_producto as id_producto, p.nombre_producto as producto, dv.cantidad as piezas, p.precio as precio_unitario ,dv.importe as importe');
-      $this->db->from('descripcion_de_venta dv');
-      $this->db->join("productos p","dv.id_producto = p.id_producto");
-      $this->db->join("venta v ","v.id_venta = dv.id_venta");
-      $this->db->where('v.estado_venta', "En_turno");
-      $this->db->where('v.id_usuario', $UsuarioID);
-      $this->db->where('date_format(fecha_reporte,"%Y-%m-%d")', 'CURDATE()', FALSE);
-      $resultados = $this->db->get();
-  return $resultados->result();
-  }
+    public function listar_venta_en_turno($UsuarioID)
+    {
+      $this->db->select('p.id_producto as id_producto, p.cantidad as cantidad, p.nombre_producto as producto, dv.cantidad as piezas, p.precio as precio_unitario ,dv.importe as importe');
+        $this->db->from('descripcion_de_venta dv');
+        $this->db->join("productos p","dv.id_producto = p.id_producto");
+        $this->db->join("venta v ","v.id_venta = dv.id_venta");
+        $this->db->where('v.estado_venta', "En_turno");
+        $this->db->where('v.id_usuario', $UsuarioID);
+        $this->db->where('date_format(fecha_reporte,"%Y-%m-%d")', 'CURDATE()', FALSE);
+        $resultados = $this->db->get();
+    return $resultados->result();
+    }
 
 
   public function InsertarVenta ($UsuarioID, $FechaActual) {
@@ -100,6 +94,16 @@ class VentasModelo extends CI_Model {
     $NuevaCantidad = $this->db->get();
     return (count($NuevaCantidad->result() > 0) ? $NuevaCantidad->row() : -1);
   }
+
+
+  public function ObtenerElSubtotalDeLaVenta ($VentaID) {
+    $this->db->select_sum('importe');
+    $this->db->from('descripcion_de_venta');
+    $this->db->where('id_venta', $VentaID);
+    $SubtotalVenta = $this->db->get();
+    return (count($SubtotalVenta->result() > 0) ? $SubtotalVenta->row() : 0);
+  }
+
 
 }
 

@@ -38,28 +38,21 @@ class VentasControlador extends CI_Controller {
         $VentaID = $ResultadoBusqueda->id_venta;
       }
       echo json_encode($VentaID);
-      /*if ($this->VentasModelo->BuscarIDVenta($UsuarioID, $FechaActual)){
-        $data = array('response' => "success", 'message' => "¡Ya hay una venta!");
-    } else {
-          $data = array('response' => "error", 'message' => "¡Todavia no hay una venta, se creará una!");
-          $this->VentasModelo->InsertarVenta($UsuarioID, $FechaActual);
-    }
-    echo json_encode($data);*/
     } else {
       echo "No se permite este acceso directo";
     }
   }
 
 
-  public function listar_venta_en_turno(){
-		if ($this->input->is_ajax_request()) {
-      $UsuarioID = $this->input->post('usuarioID');
-			$posts = $this->VentasModelo->listar_venta_en_turno($UsuarioID);
-			echo json_encode($posts);
-		}else {
-			echo "No se permite este acceso directo";
-		}
-	}
+    public function listar_venta_en_turno(){
+  		if ($this->input->is_ajax_request()) {
+        $UsuarioID = $this->input->post('usuarioID');
+  			$posts = $this->VentasModelo->listar_venta_en_turno($UsuarioID);
+  			echo json_encode($posts);
+  		}else {
+  			echo "No se permite este acceso directo";
+  		}
+  	}
 
 
   public function EnlistarProductos() {
@@ -133,6 +126,22 @@ class VentasControlador extends CI_Controller {
         }
       }
       echo json_encode($NuevaCantidad);
+    } else {
+      echo "No se permite este acceso directo";
+    }
+  }
+
+
+  public function ObtenerSubtotalVenta() {
+    if ($this->input->is_ajax_request()) {
+      $VentaID = $this->input->post('ventaID');
+      $ResultadoBusqueda = $this->VentasModelo->ObtenerElSubtotalDeLaVenta($VentaID);
+      if ($ResultadoBusqueda) {
+        $SubtotalVenta = $ResultadoBusqueda->importe;
+      } else {
+        $SubtotalVenta = 0;
+      }
+      echo json_encode($SubtotalVenta);
     } else {
       echo "No se permite este acceso directo";
     }

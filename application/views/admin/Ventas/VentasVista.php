@@ -4,6 +4,7 @@
       <div class="box-body">
         <div class="container">
 
+
           <?php
             $id_user=$this->session->userdata('id');
           ?>
@@ -40,7 +41,18 @@
                 </div>
               </div>
 
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="d-flex flex-row">
+                    <a type="button" class="btn btn-primary btn-float" id="BotonRealizarVenta">Realizar venta</a>
+                  </div>
+                </div>
+              </div>
+
+
               <hr>
+
 
               <div class="row my-4">
                 <div class="col-md-12 mx-auto">
@@ -59,15 +71,6 @@
                 </div>
               </div>
 
-            </div>
-          </div>
-
-
-          <div class="row">
-            <div class="col-md-12">
-              <div class="d-flex flex-row">
-                <a type="button" class="btn btn-primary btn-float" data-toggle="modal" data-target="#ModalRealizarVenta">Realizar la venta</a>
-              </div>
             </div>
           </div>
 

@@ -1,8 +1,8 @@
-var listaProductosComprados = [];
+var usuarioID = $("#id_usuario_venta").val();
 var ventaID = 0;
+//var listaProductosComprados = [];
 
-//Arreglar lo del input number modificando los algoritmos copiados y con expresión regular
-//Cambiar el uso de mi arreglo a la tabla de descripcion de venta
+
 //Actualizar solo la celda que le corresponde al campo de cantidad en la DataTable
 //Insertar la compra en la BD
 //Corregir lo de que la datatable se desborde
@@ -10,38 +10,33 @@ var ventaID = 0;
 //En_turno  Realizada  Cancelada Credito-pendiente
 
 $(document).ready(function() {
-
+  ComprobarSiHayVentaEnTurno();
   MostrarTablaDescripcionVenta();
-
 });
 
 
-$(document).on("click", "#BotonModalProductosCrudos", function(e) {
-
+$(document).on("click", "#BotonModalProductosCrudos", function(aunNoSeQueHace) {
+  aunNoSeQueHace.preventDefault();
   $("#TituloModalProductos").text("Productos crudos");
   MostrarTablaProductos("Crudo");
-
 });
 
 
-$(document).on("click", "#BotonModalProductosCocidos", function(e) {
-
+$(document).on("click", "#BotonModalProductosCocidos", function(aunNoSeQueHace) {
+  aunNoSeQueHace.preventDefault();
   $("#TituloModalProductos").text("Productos cocidos");
   MostrarTablaProductos("Cocido");
-
 });
 
 
-$(document).on("click", "#BotonModalProductosAcompañantes", function(e) {
-
+$(document).on("click", "#BotonModalProductosAcompañantes", function(aunNoSeQueHace) {
+  aunNoSeQueHace.preventDefault();
   $("#TituloModalProductos").text("Productos acompañantes");
   MostrarTablaProductos("Acompañantes");
-
 });
 
 
 function ComprobarSiHayVentaEnTurno() {
-  var usuarioID = $("#id_usuario_venta").val();
   var fecha = new Date();
   var mes = "";
   var dia = "";
@@ -96,49 +91,47 @@ function ComprobarSiHayVentaEnTurno() {
 }
 
 
-function MostrarTablaDescripcionVenta() {
+  function MostrarTablaDescripcionVenta() {
 
-  var usuarioID = $("#id_usuario_venta").val();
-
-  $.ajax({
-    type: "post",
-    url: base_url + 'Ventas/VentasControlador/listar_venta_en_turno',
-    data: {
-      usuarioID: usuarioID,
-    },
-    dataType: "json",
-    success: function (descripcionDeVenta) {
-      $("#TablaDescripcionVenta").DataTable({
-        data: descripcionDeVenta,
-        responsive: true,
-        columns: [
-          {
-            data: "producto",
-          },
-          {
-            data: "piezas",
-          },
-          {
-            data: "precio_unitario",
-          },
-          {
-            data: "importe",
-          },
-          {
-            orderable: false,
-            searchable: false,
-            data: function(row, type, set) {
-              return `
-                <a href="#" id="BorrarProductoDeLaVenta" class="btn btn-danger btn-remove" ProductoID="${row.id_producto}" Cantidad="${row.cantidad}" Piezas="${row.piezas}""><i class="fas fa-shopping-cart"></i></a>
-              `;
+    $.ajax({
+      type: "post",
+      url: base_url + 'Ventas/VentasControlador/listar_venta_en_turno',
+      data: {
+        usuarioID: usuarioID,
+      },
+      dataType: "json",
+      success: function (descripcionDeVenta) {
+        $("#TablaDescripcionVenta").DataTable({
+          data: descripcionDeVenta,
+          responsive: true,
+          columns: [
+            {
+              data: "producto",
             },
-          },
-        ],
-        'language': idiomaEspañolTablas,
-      });
-    },
-  });
-}
+            {
+              data: "piezas",
+            },
+            {
+              data: "precio_unitario",
+            },
+            {
+              data: "importe",
+            },
+            {
+              orderable: false,
+              searchable: false,
+              data: function(row, type, set) {
+                return `
+                  <a href="#" id="BorrarProductoDeLaVenta" class="btn btn-danger btn-remove" ProductoID="${row.id_producto}" Cantidad="${row.cantidad}" Piezas="${row.piezas}""><i class="fas fa-shopping-cart"></i></a>
+                `;
+              },
+            },
+          ],
+          'language': idiomaEspañolTablas,
+        });
+      },
+    });
+  }
 
 
 function MostrarTablaProductos() {
@@ -201,19 +194,18 @@ function MostrarTablaProductos() {
     },
   });
   $('#ModalProductos').modal('show');
-  ComprobarSiHayVentaEnTurno();
 }
 
 
-$(document).on("click", "#EliminarTablaVentaProductos", function(e) {
-
+$(document).on("click", "#EliminarTablaVentaProductos", function(aunNoSeQueHace) {
+  aunNoSeQueHace.preventDefault();
   $('#TablaVentaProductos').DataTable().clear();
   $('#TablaVentaProductos').DataTable().destroy();
-
 });
 
 
-$(document).on("click", "#AgregarProductoALaVenta", function(e) {
+$(document).on("click", "#AgregarProductoALaVenta", function(aunNoSeQueHace) {
+  aunNoSeQueHace.preventDefault();
 
   var productoID = $(this).attr("ProductoID");
   var cantidad = $(this).attr("Cantidad");
@@ -246,7 +238,8 @@ $(document).on("click", "#AgregarProductoALaVenta", function(e) {
 });
 
 
-$(document).on("click", "#BorrarProductoDeLaVenta", function(e) {
+/*$(document).on("click", "#BorrarProductoDeLaVenta", function(aunNoSeQueHace) {
+  aunNoSeQueHace.preventDefault();
 
   var productoID = $(this).attr("ProductoID");
   var cantidad = $(this).attr("Cantidad");
@@ -271,8 +264,7 @@ $(document).on("click", "#BorrarProductoDeLaVenta", function(e) {
     $('#TablaDescripcionVenta').DataTable().destroy();
     MostrarTablaDescripcionVenta();
   }
-
-});
+});*/
 
 
 function ModificarCantidadProducto() {
@@ -290,13 +282,9 @@ function ModificarCantidadProducto() {
     dataType: "json",
     success: function(nuevaCantidad) {
       console.log(nuevaCantidad);
-      if (tipoProducto) {
-        $('#TablaVentaProductos').DataTable().destroy();
-        MostrarTablaProductos(tipoProducto);
-      }
-    }/*,
-    error: function(nuevaCantidad) {
-    }*/
+      $('#TablaVentaProductos').DataTable().destroy();
+      MostrarTablaProductos(tipoProducto);
+    }
   });
 }
 
@@ -322,6 +310,25 @@ function ValidarLimitePiezas(cantidad){
   }
   //Ya no es necesario verificar si el valor agregado es menor al límite inferior, en este caso 0, porque la función ValidarCantidadPiezas, con ayuda de la expresión regular, se encarga de no aceptar números negativos.
 }
+
+
+$(document).on('click', '#BotonRealizarVenta', function(aunNoSeQueHace) {
+  aunNoSeQueHace.preventDefault();
+
+  $.ajax({
+    type: 'post',
+    url: base_url + 'Ventas/VentasControlador/ObtenerSubtotalVenta',
+    data: {
+      ventaID: ventaID,
+    },
+    dataType: 'json',
+    success: function(subtotalVenta) {
+      $('#ModalRealizarVenta').modal('show');
+      $('#SubtotalVenta').val(subtotalVenta)
+      $('#TotalVenta').val(subtotalVenta)
+    }
+  });
+});
 
 
 var idiomaEspañolTablas = {

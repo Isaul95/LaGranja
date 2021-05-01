@@ -148,6 +148,48 @@ class VentasControlador extends CI_Controller {
   }
 
 
+  public function ActualziarVenta () {
+    if ($this->input->is_ajax_request()) {
+      $VentaID = $this->input->post('ventaID');
+
+      $NuevosValoresCampos = array (
+        'subtotal' => $this->input->post('subtotal'),
+        'descuento' => $this->input->post('descuento'),
+        'total' => $this->input->post('total'),
+        'pago' => $this->input->post('pago'),
+        'cambio' => $this->input->post('cambio'),
+        'estado_venta' => 'Realizada'
+      );
+
+      $SeActualizoLaVenta = $this->VentasModelo->ActualizarCamposDeLaVenta($VentaID, $NuevosValoresCampos);
+      echo json_encode($SeActualizoLaVenta);
+    } else {
+      echo "No se permite este acceso directo";
+    }
+  }
+
+
+  public function CancelarVenta () {
+    if ($this->input->is_ajax_request()) {
+      $VentaID = $this->input->post('ventaID');
+
+      $NuevosValoresCampos = array (
+        'subtotal' => 0,
+        'descuento' => 0,
+        'total' => 0,
+        'pago' => 0,
+        'cambio' => 0,
+        'estado_venta' => 'Cancelada'
+      );
+
+      $SeCanceloLaVenta = $this->VentasModelo->ActualizarEstadoDeLaVenta($VentaID, $NuevosValoresCampos);
+      echo json_encode($SeCanceloLaVenta);
+    } else {
+      echo "No se permite este acceso directo";
+    }
+  }
+
+
 }
 //echo "<script> alert('$NuevaCantidadPiezas', '$NuevoPrecioPiezas', '$ID'); </script>";
 //echo "<script> alert('".$Hola."'); </script>";

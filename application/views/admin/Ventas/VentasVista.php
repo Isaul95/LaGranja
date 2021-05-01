@@ -9,7 +9,8 @@
             $id_user=$this->session->userdata('id');
           ?>
 
-          <input type="hidden" id="id_usuario_venta" name="" value="<?php echo $id_user;?>">
+          <input type="hidden" id="InputUsuarioID" name="" value="<?php echo $id_user;?>">
+          <input type="hidden" id="InputVentaID" name="" value="<?php echo $id_user;?>">
 
 
           <div class="row">
@@ -62,8 +63,8 @@
                         <!--<th width="21%">id_producto</th>-->
                         <th width="21%">Producto</th>
                         <th width="21%">Piezas</th>
-                        <th width="21%">Precio por pieza</th>
-                        <th width="21%">Precio total</th>
+                        <th width="21%">Precio unitario</th>
+                        <th width="21%">Precio por las piezas</th>
                         <th width="16%">Eliminar</th>
                       </tr>
                     </thead>
@@ -160,8 +161,8 @@
 
                 <div class="modal-footer">
                   <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                  <button type="button" class="btn btn-primary" id="CancelarVenta">Cancelar venta</button>
-                  <button type="button" class="btn btn-primary" id="ConcretarVenta">Concretar venta</button>
+                  <button type="button" class="btn btn-primary" id="BotonCancelarVenta">Cancelar venta</button>
+                  <button type="button" class="btn btn-primary" id="BotonConcretarVenta">Concretar venta</button>
                 </div>
 
               </div>

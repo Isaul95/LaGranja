@@ -105,6 +105,18 @@ class VentasModelo extends CI_Model {
   }
 
 
+  public function ActualizarCamposDeLaVenta($VentaID, $NuevosValoresCampos) {
+    $this->db->where('id_venta', $VentaID);
+    return ($this->db->update('venta', $NuevosValoresCampos) ? $this->db->affected_rows() : 0);
+  }
+
+
+  public function ActualizarEstadoDeLaVenta($VentaID, $ValoresCampos) {
+    $this->db->where('id_venta', $VentaID);
+    return ($this->db->update('venta', $ValoresCampos) ? $this->db->affected_rows() : 0);
+  }
+
+
 }
 
 /*if ($SegundaBusqueda) {

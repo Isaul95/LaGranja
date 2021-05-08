@@ -44,21 +44,21 @@ class VentasControlador extends CI_Controller {
   }
 
 
-    public function listar_venta_en_turno(){
+    public function ListarVenta() {
   		if ($this->input->is_ajax_request()) {
         $UsuarioID = $this->input->post('usuarioID');
-  			$posts = $this->VentasModelo->listar_venta_en_turno($UsuarioID);
-  			echo json_encode($posts);
-  		}else {
+  			$MostrarConsulta = $this->VentasModelo->ObtenerVentaEnTurno($UsuarioID);
+  			echo json_encode($MostrarConsulta);
+  		} else {
   			echo "No se permite este acceso directo";
   		}
   	}
 
 
-  public function EnlistarProductos() {
+  public function ListarProductos() {
     if ($this->input->is_ajax_request()) {
       $TipoProducto = $this->input->post('tipoProducto');
-      $MostrarConsulta = $this->VentasModelo->LeerProductos($TipoProducto);
+      $MostrarConsulta = $this->VentasModelo->ObtenerProductos($TipoProducto);
 		  echo json_encode($MostrarConsulta);
     } else {
       echo "No se permite este acceso directo";
@@ -100,11 +100,11 @@ class VentasControlador extends CI_Controller {
       $this->VentasModelo->EliminarProductoDescripcionVenta($ProductoID, $VentaID);
 
       if($this->VentasModelo->ComprobarSiExisteProductoDescripcionVenta($ProductoID, $VentaID)){
-        $ResultadoConsulta = "No se eliminó";
+        $Consulta = array ("Resultado" => "No fue eliminado");
       } else {
-        $ResultadoConsulta = "Si se eliminó";
+        $Consulta = array ("Resultado" => "Fue eliminado");
       }
-		  echo json_encode($ResultadoConsulta);
+		  echo json_encode($Consulta);
     } else {
       echo "No se permite este acceso directo";
     }
@@ -172,6 +172,9 @@ class VentasControlador extends CI_Controller {
   public function CancelarVenta () {
     if ($this->input->is_ajax_request()) {
       $VentaID = $this->input->post('ventaID');
+      $UsuarioID = $this->input->post('usuarioID');
+
+      $ProductosVenta = $this->VentasModelo->ObtenerVentaEnTurno($UsuarioID);
 
       $NuevosValoresCampos = array (
         'subtotal' => 0,
@@ -183,6 +186,16 @@ class VentasControlador extends CI_Controller {
       );
 
       $SeCanceloLaVenta = $this->VentasModelo->ActualizarEstadoDeLaVenta($VentaID, $NuevosValoresCampos);
+
+      if($SeCanceloLaVenta) {
+        foreach ($ProductosVenta as $Producto){
+          $ProductoID = $Producto->id_producto;
+          $Cantidad = $Producto->cantidad;
+          $Piezas = $Producto->piezas;
+          $CantidadModificada = (int)$Cantidad + (int)$Piezas;
+          $this->VentasModelo->ActualizarCantidadProducto($ProductoID, $CantidadModificada);
+        }
+      }
       echo json_encode($SeCanceloLaVenta);
     } else {
       echo "No se permite este acceso directo";

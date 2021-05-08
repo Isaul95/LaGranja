@@ -5,16 +5,16 @@ var tiempoEntreCadaTeclaPresionada = "";
 
 
 //Actualizar solo la celda que le corresponde al campo de cantidad en la DataTable
-//Insertar la compra en la BD
 //Corregir lo de que la datatable se desborde
 //Agregar un listener para mostrar el botón de realizar venta
 //Agregar un listener para habilitar el botón de concretar venta
-//Ver que onda con que no permita insertar el primer producto si la venta fue recien creada
 //Agregar validadores para los campos del formulario Realizar venta
 
 //En_turno  Realizada  Cancelada Credito-pendiente
 
 $(document).ready(function() {
+  $("#BotonRealizarVenta").attr('disabled','disabled');
+  $("#BotonConcretarVenta").attr('disabled','disabled');
   ComprobarSiHayVentaEnTurno();
   MostrarTablaDescripcionVenta();
 });
@@ -38,6 +38,12 @@ $(document).on("click", "#BotonModalProductosAcompañantes", function(aunNoSeQue
   aunNoSeQueHace.preventDefault();
   $("#TituloModalProductos").text("Productos acompañantes");
   MostrarTablaProductos("Acompañantes");
+});
+
+
+$("#ModalRealizarVenta").on("hide.bs.modal", function () {
+  $("#FormularioRealizarVenta")[0].reset();
+  $("#BotonConcretarVenta").attr('disabled','disabled');
 });
 
 
@@ -99,50 +105,55 @@ function ComprobarSiHayVentaEnTurno() {
 }
 
 
-  function MostrarTablaDescripcionVenta() {
-    if (!ventaID) {
-      ComprobarSiHayVentaEnTurno();
-    }
-
-    $.ajax({
-      type: "post",
-      url: base_url + 'Ventas/VentasControlador/listar_venta_en_turno',
-      data: {
-        usuarioID: usuarioID,
-      },
-      dataType: "json",
-      success: function (descripcionDeVenta) {
-        $("#TablaDescripcionVenta").DataTable({
-          data: descripcionDeVenta,
-          responsive: true,
-          columns: [
-            {
-              data: "producto",
-            },
-            {
-              data: "piezas",
-            },
-            {
-              data: "precio_unitario",
-            },
-            {
-              data: "importe",
-            },
-            {
-              orderable: false,
-              searchable: false,
-              data: function(row, type, set) {
-                return `
-                  <a href="#" id="BorrarProductoDeLaVenta" class="btn btn-danger btn-remove" ProductoID="${row.id_producto}" Cantidad="${row.cantidad}" Piezas="${row.piezas}""><i class="fas fa-shopping-cart"></i></a>
-                `;
-              },
-            },
-          ],
-          'language': idiomaEspañolTablas,
-        });
-      },
-    });
+function MostrarTablaDescripcionVenta() {
+  if (!ventaID) {
+    ComprobarSiHayVentaEnTurno();
   }
+
+  $.ajax({
+    type: "post",
+    url: base_url + 'Ventas/VentasControlador/ListarVenta',
+    data: {
+      usuarioID: usuarioID,
+    },
+    dataType: "json",
+    success: function (descripcionDeVenta) {
+      $("#TablaDescripcionVenta").DataTable({
+        data: descripcionDeVenta,
+        responsive: true,
+        columns: [
+          {
+            data: "producto",
+          },
+          {
+            data: "piezas",
+          },
+          {
+            data: "precio_unitario",
+          },
+          {
+            data: "importe",
+          },
+          {
+            orderable: false,
+            searchable: false,
+            data: function(row, type, set) {
+              return `
+                <a href="#" id="BorrarProductoDeLaVenta" class="btn btn-danger btn-remove" ProductoID="${row.id_producto}" Cantidad="${row.cantidad}" Piezas="${row.piezas}""><i class="fas fa-shopping-cart"></i></a>
+              `;
+            },
+          },
+        ],
+        'language': idiomaEspañolTablas,
+      });
+      if (descripcionDeVenta.length > 0) {
+        $("#BotonRealizarVenta").removeAttr('disabled');
+      } else {
+        $("#BotonRealizarVenta").attr('disabled','disabled');
+      }
+    },
+  });
+}
 
 
 function MostrarTablaProductos() {
@@ -154,7 +165,7 @@ function MostrarTablaProductos() {
 
   $.ajax({
     type: "post",
-    url: base_url + 'Ventas/VentasControlador/EnlistarProductos',
+    url: base_url + 'Ventas/VentasControlador/ListarProductos',
     data: {
       tipoProducto: tipoProducto,
     },
@@ -228,7 +239,7 @@ $(document).on("click", "#AgregarProductoALaVenta", function(aunNoSeQueHace) {
   var precioPiezas = piezasCompradas * precioProducto;
   var tipoProducto = $(this).attr("TipoProducto");
 
-  if (cantidad > 0) {
+  if (piezasCompradas > 0) {
     $.ajax({
       type: "post",
       url: base_url + 'Ventas/VentasControlador/AgregarProductoVenta',
@@ -243,23 +254,22 @@ $(document).on("click", "#AgregarProductoALaVenta", function(aunNoSeQueHace) {
         if (resultadoConsulta > 0) {
           var nuevaCantidad = cantidad - piezasCompradas;
           ModificarCantidadProducto(productoID, nuevaCantidad, tipoProducto);
+          $('#TablaDescripcionVenta').DataTable().destroy();
+          MostrarTablaDescripcionVenta();
         }
       }
     });
-    $('#TablaDescripcionVenta').DataTable().destroy();
-    MostrarTablaDescripcionVenta();
   }
 });
 
 
-/*$(document).on("click", "#BorrarProductoDeLaVenta", function(aunNoSeQueHace) {
+$(document).on("click", "#BorrarProductoDeLaVenta", function(aunNoSeQueHace) {
   aunNoSeQueHace.preventDefault();
 
   var productoID = $(this).attr("ProductoID");
   var cantidad = $(this).attr("Cantidad");
   var piezas = $(this).attr("Piezas");
 
-  if (cantidad > 0) {
     $.ajax({
       type: "post",
       url: base_url + 'Ventas/VentasControlador/EliminarProductoVenta',
@@ -268,17 +278,16 @@ $(document).on("click", "#AgregarProductoALaVenta", function(aunNoSeQueHace) {
         ventaID: ventaID,
       },
       dataType: "json",
-      success: function(resultadoConsulta) {
-        if (resultadoConsulta == "Si se eliminó") {
-          var nuevaCantidad = cantidad + piezas;
-          ModificarCantidadProducto(productoID, nuevaCantidad, "");
+      success: function(consulta) {
+        if (consulta.Resultado == "Fue eliminado") {
+          var nuevaCantidad = parseInt(cantidad) + parseInt(piezas);
+          ModificarCantidadProducto(productoID, nuevaCantidad, "Sin producto");
+          $('#TablaDescripcionVenta').DataTable().destroy();
+          MostrarTablaDescripcionVenta();
         }
       }
     });
-    $('#TablaDescripcionVenta').DataTable().destroy();
-    MostrarTablaDescripcionVenta();
-  }
-});*/
+});
 
 
 function ModificarCantidadProducto() {
@@ -295,16 +304,17 @@ function ModificarCantidadProducto() {
     },
     dataType: "json",
     success: function(nuevaCantidad) {
-      console.log(nuevaCantidad);
-      $('#TablaVentaProductos').DataTable().destroy();
-      MostrarTablaProductos(tipoProducto);
+      if (tipoProducto != "Sin producto") {
+        $('#TablaVentaProductos').DataTable().destroy();
+        MostrarTablaProductos(tipoProducto);
+      }
     }
   });
 }
 
 
 function ValidarCantidadPiezas() {
-  var cantidadPermitida = new RegExp("[0-9]+");
+  var cantidadPermitida = new RegExp("[0-9]");
   var valorInsertado = String.fromCharCode(!event.charCode ? event.which : event.charCode);
   if (!cantidadPermitida.test(valorInsertado)) {
     event.preventDefault();
@@ -345,20 +355,13 @@ $(document).on('click', '#BotonRealizarVenta', function(aunNoSeQueHace) {
 });
 
 
-/*$("#InputVentaID").on('change', function(aunNoSeQueHace){
-  aunNoSeQueHace.preventDefault();
-
-  if (ventaID) {
-    $('#TotalVenta').val(nuevoTotal);
-  } else {
-    $('#DescuentoVenta').val('');
-    toastr.warning("El descuento no puede ser mayor al total de la venta", "¡Cuidado!");
-  }
-});*/
+$("#DescuentoVenta").on('keyup', function() {
+  clearTimeout(tiempoEntreCadaTeclaPresionada);
+  tiempoEntreCadaTeclaPresionada = setTimeout(ValidarDescuentoVenta, 500);
+});
 
 
-$("#DescuentoVenta").on('keyup', function(aunNoSeQueHace) {
-  aunNoSeQueHace.preventDefault();
+function ValidarDescuentoVenta() {
 
   var subtotal = parseFloat($('#SubtotalVenta').val());
   var descuento = parseFloat($('#DescuentoVenta').val());
@@ -382,28 +385,117 @@ $("#DescuentoVenta").on('keyup', function(aunNoSeQueHace) {
     $('#DescuentoVenta').val('');
     //toastr.warning("El descuento no puede ser mayor al total de la venta", "¡Cuidado!");
   }
-});
+}
 
 
 $("#PagoVenta").on("keyup", function() {
   clearTimeout(tiempoEntreCadaTeclaPresionada);
-  tiempoEntreCadaTeclaPresionada = setTimeout(ValidarPagoVenta, 750);
+  tiempoEntreCadaTeclaPresionada = setTimeout(ValidarPagoVenta, 500);
 });
 
 
 function ValidarPagoVenta() {
+  /*var cantidadPago = $('#PagoVenta').val();
+  cantidad= cantidadPago.toString();
+  var indice = cantidad.indexOF(".");
+
+  if (indice >= 0) {
+    var decimales = cantidadPago.substring(indice, (cantidadPago.length - 1));
+    var numero = new RegExp("\.[0-9]+");
+    var puntoDecimal = new RegExp("");
+  }*/
+
+  /*var a = reemplazarCadena("Mundo", "Web", "Bravo Nuevo Mundo");
+  console.log(a);*/
+
   var pago = parseFloat($('#PagoVenta').val());
   var total = parseFloat($('#TotalVenta').val());
 
   if (pago >= total) {
     var cambio = pago - total;
     $('#CambioVenta').val(cambio);
+    $("#BotonConcretarVenta").removeAttr('disabled');
   } else if (!pago) {
     $('#CambioVenta').val('');
+    $("#BotonConcretarVenta").attr('disabled','disabled');
   } else {
     $('#PagoVenta').val('');
     $('#CambioVenta').val("No se pagó el total de la venta");
+    $("#BotonConcretarVenta").attr('disabled','disabled');
   }
+}
+
+/*function reemplazarCadena(cadenaVieja, cadenaNueva, cadenaCompleta) {
+// Reemplaza cadenaVieja por cadenaNueva en cadenaCompleta
+
+   for (var i = 0; i < cadenaCompleta.length; i++) {
+      if (cadenaCompleta.substring(i, i + cadenaVieja.length) == cadenaVieja) {
+         cadenaCompleta= cadenaCompleta.substring(0, i) + cadenaNueva + cadenaCompleta.substring(i + cadenaVieja.length, cadenaCompleta.length);
+      }
+   }
+   return cadenaCompleta;
+}*/
+
+
+$("#DescuentoVenta").on("keypress", function() {
+  var descuento = $("#DescuentoVenta").val();
+  ValidarCantidadIngresada(descuento);
+});
+
+
+$("#PagoVenta").on("keypress", function() {
+  var pago = $("#PagoVenta").val();
+  ValidarCantidadIngresada(pago);
+});
+
+
+function ValidarCantidadIngresada() {
+
+  var numero = new RegExp("[0-9]");
+  var puntoDecimal = new RegExp("\.");
+  var valorInsertado = arguments[0];
+  valorInsertado = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+  if (!numero.test(valorInsertado) || !puntoDecimal.test(valorInsertado)) {
+    event.preventDefault();
+    return false;
+  }
+
+
+  //$ExpresionRegular = "/[0-9]*\.?[0-9]*/";
+  /*preg_match($ExpresionRegular, $Costo, $Coincidencias);
+  if (count($Coincidencias) > 0) {
+    if (strlen($Costo) == strlen($Coincidencias[0])) {*/
+      //$ExpresionRegularPesos = "/[0-9]*/";
+      //$ExpresionRegularCentavos = "/\.[0-9]*/";
+      /*preg_match($ExpresionRegularPesos, $Costo, $CoincidenciasPesos);
+      preg_match($ExpresionRegularCentavos, $Costo, $CoincidenciasCentavos);
+      if (count($CoincidenciasCentavos) > 0) {
+        if (strlen($CoincidenciasPesos[0]) <= 7 and (strlen($CoincidenciasCentavos[0]) <= 3)) {
+          return true;
+        } else {
+          if (strlen($CoincidenciasPesos[0]) > 7) {
+            $this->form_validation->set_message('ValidarCosto', "No debe ingresar valores mayores a 9,999,999.99 en el campo costo.");
+          } else {
+            $this->form_validation->set_message('ValidarCosto', "Sólo puede agregar dos dígitos, uno o ninguno después del punto decimal para el campo costo.");
+          }
+          return false;
+        }
+      } else {
+        if (strlen($Costo) <= 7) {
+          return true;
+        } else {
+          $this->form_validation->set_message('ValidarCosto', "No debe ingresar valores mayores a 9,999,999 en el campo costo.");
+          return false;
+        }
+      }
+    } else {
+      $this->form_validation->set_message('ValidarCosto', "Favor de solo introducir números sin espacios ni comas para el precio del platillo, y el punto decimal para los centavos en caso de que sea necesario, en el campo costo.");
+      return false;
+    }
+  } else {
+    $this->form_validation->set_message('ValidarCosto', "Favor de solo introducir números sin espacios ni comas para el precio del platillo, y el punto decimal para los centavos en caso de que sea necesario, en el campo costo.");
+    return false;
+  }*/
 }
 
 
@@ -434,10 +526,11 @@ $(document).on('click', '#BotonConcretarVenta', function(aunNoSeQueHace) {
     dataType: 'json',
     success: function(ventaActualizada) {
       if (ventaActualizada) {
-        ventaID = 0;
+        ventaID = 0
         $('#ModalRealizarVenta').modal('hide');
         $('#FormularioRealizarVenta')[0].reset();
         $('#TablaDescripcionVenta').DataTable().destroy();
+        $("#BotonConcretarVenta").attr('disabled','disabled');
         MostrarTablaDescripcionVenta();
       }
     }
@@ -450,7 +543,6 @@ $(document).on('click', '#BotonCancelarVenta', function(e) {
 
   Swal.fire({
     title: "¿Estás seguro de cancelar la venta actual?",
-    //text: "¡Esta acción es irreversible!",
     icon: 'warning',
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
@@ -464,6 +556,7 @@ $(document).on('click', '#BotonCancelarVenta', function(e) {
         url: base_url + 'Ventas/VentasControlador/CancelarVenta',
         data: {
           ventaID: ventaID,
+          usuarioID: usuarioID,
         },
         dataType: 'json',
         success: function(ventaFueCancelada) {
@@ -476,6 +569,7 @@ $(document).on('click', '#BotonCancelarVenta', function(e) {
             $('#ModalRealizarVenta').modal('hide');
             $('#FormularioRealizarVenta')[0].reset();
             $('#TablaDescripcionVenta').DataTable().destroy();
+            $("#BotonConcretarVenta").attr('disabled','disabled');
             MostrarTablaDescripcionVenta();
           }
         },

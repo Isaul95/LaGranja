@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit ("No direct script acces allowed");
 
 class VentasModelo extends CI_Model {
 
-// FUNCIONALES
+
   public function BuscarIDVenta ($UsuarioID, $FechaActual) {
     $this->db->select('id_venta');
     $this->db->from('venta');
@@ -16,28 +16,26 @@ class VentasModelo extends CI_Model {
   }
 
 
-    public function listar_venta_en_turno($UsuarioID)
-    {
-      $this->db->select('p.id_producto as id_producto, p.cantidad as cantidad, p.nombre_producto as producto, dv.cantidad as piezas, p.precio as precio_unitario ,dv.importe as importe');
-        $this->db->from('descripcion_de_venta dv');
-        $this->db->join("productos p","dv.id_producto = p.id_producto");
-        $this->db->join("venta v ","v.id_venta = dv.id_venta");
-        $this->db->where('v.estado_venta', "En_turno");
-        $this->db->where('v.id_usuario', $UsuarioID);
-        $this->db->where('date_format(fecha_reporte,"%Y-%m-%d")', 'CURDATE()', FALSE);
-        $resultados = $this->db->get();
-    return $resultados->result();
-    }
+  public function ObtenerVentaEnTurno($UsuarioID) {
+    $this->db->select('p.id_producto as id_producto, p.cantidad as cantidad, p.nombre_producto as producto, dv.cantidad as piezas, p.precio as precio_unitario ,dv.importe as importe');
+    $this->db->from('descripcion_de_venta dv');
+    $this->db->join("productos p","dv.id_producto = p.id_producto");
+    $this->db->join("venta v ","v.id_venta = dv.id_venta");
+    $this->db->where('v.estado_venta', "En_turno");
+    $this->db->where('v.id_usuario', $UsuarioID);
+    $this->db->where('date_format(fecha_reporte,"%Y-%m-%d")', 'CURDATE()', FALSE);
+    $InformacionDescripcionDeVenta = $this->db->get();
+    return $InformacionDescripcionDeVenta->result();
+  }  
 
 
   public function InsertarVenta ($UsuarioID, $FechaActual) {
     $ValoresCampos = array ('id_usuario' => $UsuarioID, 'estado_venta' => "En_turno", 'fecha_reporte' => $FechaActual);
     return $this->db->insert('venta', $ValoresCampos);
   }
- //FUNCIONALES
 
 
-  public function LeerProductos($TipoProducto) {
+  public function ObtenerProductos($TipoProducto) {
     $InformacionProductos = $this->db->get_where('productos', array('tipo_producto' => $TipoProducto));
     return $InformacionProductos->result();
   }

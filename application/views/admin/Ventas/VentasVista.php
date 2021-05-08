@@ -43,10 +43,12 @@
               </div>
 
 
-              <div class="row">
+              <div class="row" style="padding-top: 2em; margin: auto;">
                 <div class="col-md-12">
                   <div class="d-flex flex-row">
-                    <a type="button" class="btn btn-primary btn-float" id="BotonRealizarVenta">Realizar venta</a>
+                    <div class="col-sm-4 col-md-4" style="text-align: center;">
+                      <button type="button" class="btn btn-primary" id="BotonRealizarVenta">Realizar venta</button>
+                    </div>
                   </div>
                 </div>
               </div>

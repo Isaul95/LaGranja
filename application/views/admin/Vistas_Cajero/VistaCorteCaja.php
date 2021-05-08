@@ -35,13 +35,17 @@
     <div class="modal-body">
       <input type="hidden" class="form-control" id="user_login"  value="<?php echo $username;?>" >
       <input type="hidden" class="form-control" id="id_apertura" >
-<?php foreach($totalProcesadosDelDia as $totalProcesadosDelDia):?>
-      <input type="hidden" class="form-control" id="total_procesados" value="<?php echo $totalProcesadosDelDia->totalProcesados;?>" >
-<?php endforeach;?>
 
-<?php foreach($totalDevolucionCrudoDelDia as $totalDevolucionCrudoDelDia):?>
-      <input type="hidden" class="form-control" id="total_devolucion_crudo" value="<?php echo $totalDevolucionCrudoDelDia->totalDevCrudo;?>" >
-<?php endforeach;?>
+
+<?php $totalCocidos = $this->Modelo_CorteCaja->getTotalCocidos(); ?>
+
+      <input type="hidden" class="form-control" id="total_procesados" value="<?php echo $totalCocidos[0]->totalVendidos; ?>" >
+<?php ?>
+
+<?php $totalCrudos = $this->Modelo_CorteCaja->getTotalCrudos(); ?>
+
+      <input type="hidden" class="form-control" id="total_devolucion_crudo" value="<?php echo $totalCrudos[0]->totalVendidos; ?>" >
+<?php #endforeach;?>
 
       <form id="formularioAltaCorteCaja">
 

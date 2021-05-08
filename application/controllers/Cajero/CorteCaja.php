@@ -24,8 +24,10 @@ class CorteCaja extends CI_Controller {
 						'totalPagosDelDia' => $this->Modelo_CorteCaja->consultaTotalDePagosHechosDelDia($fechaActualHoy),
 						'totalVentasDelDia' => $this->Modelo_CorteCaja->consultaTotalDeAllVentasHechosDelDia($fechaActualHoy),
 						'totalDescuentos_y_sumTotalDescuentosDelDia' => $this->Modelo_CorteCaja->consultaTotalDeDescuentosHechosDelDia($fechaActualHoy),
-						'totalProcesadosDelDia' => $this->Modelo_CorteCaja->consultaTotalProcesadosDelDia(),
-						'totalDevolucionCrudoDelDia' => $this->Modelo_CorteCaja->consultaTotalDevolucionCrudoDelDia(),
+						//'totalProcesadosDelDia' => $this->Modelo_CorteCaja->consultaTotalProcesadosDelDia(),
+						//'totalDevolucionCrudoDelDia' => $this->Modelo_CorteCaja->consultaTotalDevolucionCrudoDelDia(),
+						//'totalProcesadosDelDia' => $this->Modelo_CorteCaja->getTotalCocidos(),
+						//'totalDevolucionCrudoDelDia' => $this->Modelo_CorteCaja->getTotalCrudos(),
 				);
 
 				$this->load->view('layouts/header');
@@ -37,16 +39,19 @@ class CorteCaja extends CI_Controller {
 
 
 
-
-
+		//implode($pruebaaaa, $arr);
+		//echo $pruebaaaa;
 
 		//   Realizar registro del corte de caja del dia
 		public function registroCorteDeCaja(){
+
 			ini_set('date.timezone', 'America/Mexico_City');
 			$fff=date('Y/m/d', time());
+
 			//$fff= date("Y"."/"."m". "/"."d");
 			$fc = $this->Modelo_CorteCaja->traerFechaA($fff);
 			// Se compara si ya hay una apertura con la fecha actual
+
 		   if ($fc == null || $fc == '') {
 // 				DATOS PARA INSERT INTO TABLE CORTES DE CAJA
 					$data_cortes['id_apertura'] 		= $this->input->post('id_apertura');
@@ -74,8 +79,79 @@ class CorteCaja extends CI_Controller {
 					$datas_utilidad['utilidad']    = $this->input->post('utilidad');
 
 			  if ($this->Modelo_CorteCaja->insert_entryCaja($data_cortes)) {
+
+					ini_set('date.timezone', 'America/Mexico_City');
+					$fechaActualHoyMero=date('Y/m/d', time());
+
+					//--------------------------------- Actualiza Crudos ----------------------------------
+					$crudosVent = $this->Modelo_CorteCaja->crudosVent();
+
+					foreach ($crudosVent as $rowPv){
+
+						$id_venta = $rowPv->id_venta;
+						$id_PVe = $rowPv->id_producto;
+						$nprod = $rowPv->nombre_producto;
+
+						// Con el id de venta y el id de producto se obtiene la cantidad de producto vendido
+						// en todo el dia
+
+						$ventasC = $this->Modelo_CorteCaja->getCantidadProductoVen($id_PVe, $fechaActualHoyMero);
+						$cantidadVent = floatval($ventasC[0]->totalVendidos);
+
+						$pCrudos = $this->Modelo_CorteCaja->traerProductosCrudos();
+
+						foreach ($pCrudos as $rowPc){
+							$id_crudo = $rowPc->id_producto;
+
+
+							if ($id_PVe == $id_crudo) {
+								// code...
+								$cantCrudos = floatval($rowPc->cantidad);
+
+								$sobranteCrudo = $cantCrudos - $cantidadVent;
+								// Actualiza Cantidad sobrante
+								$this->Modelo_CorteCaja->actualizarCrudosSobrantes($nprod, $sobranteCrudo, $fechaActualHoyMero);
+								//break;
+							}
+						}
+					}// foreach del productos Crudos
+
+
+					//--------------------------------- Actualiza Cocidos ----------------------------------
+					$cocidosVent = $this->Modelo_CorteCaja->cocidosVent();
+					foreach ($cocidosVent as $rowPvC){
+
+						$idVenta = $rowPvC->id_venta;
+						$idPVe = $rowPvC->id_producto;
+						$nPro = $rowPvC->nombre_producto;
+
+						// Con el id de venta y el id de producto se obtiene la cantidad de producto vendido
+						// en todo el dia
+
+						$ventasCoc = $this->Modelo_CorteCaja->getCantidadProductoVen($idPVe, $fechaActualHoyMero);
+						$cantidadVentCoc = floatval($ventasCoc[0]->totalVendidos);
+
+						$pCocidos = $this->Modelo_CorteCaja->traerProductosCocidos();
+
+						foreach ($pCocidos as $rowPco){
+							$id_cocido = $rowPco->id_producto;
+
+
+							if ($idPVe == $id_cocido) {
+								// code...
+								$cantCocidos = floatval($rowPco->cantidad);
+
+								$sobranteCocido = $cantCocidos - $cantidadVentCoc;
+								// Actualiza Cantidad sobrante procesados
+								$this->Modelo_CorteCaja->actualizarCocidosSobrantes($nPro, $sobranteCocido, $fechaActualHoyMero);
+								//break;
+							}
+						}
+					}// foreach del productos Cocidos
+
 						$this->Modelo_CorteCaja->insert_en_Utilidades($datas_utilidad);
 						// base_url(); ? > auth/logout
+
 						$data = array('responce' => 'success', 'message' => 'Corte de caja realizado correctamente...!');
 						// redirect(base_url()."auth/logout");
 
